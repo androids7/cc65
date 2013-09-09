@@ -21,6 +21,7 @@ TARGETS = apple2    \
           nes       \
           sim6502   \
           sim65c02  \
+          jbit      \
           supervision
 
 DRVTYPES = emd \

@@ -7,7 +7,7 @@
 /*                                                                           */
 /*                                                                           */
 /* (C) 1998-2012 Ullrich von Bassewitz                                       */
-/*               Römerstrasse 52                                             */
+/*               Roemerstrasse 52                                            */
 /*               D-70794 Filderstadt                                         */
 /* EMail:        uz@cc65.org                                                 */
 /*                                                                           */
@@ -81,6 +81,9 @@ extern struct _timezone {
 unsigned _clocks_per_sec (void);
 #  define CLK_TCK               _clocks_per_sec()
 #  define CLOCKS_PER_SEC        _clocks_per_sec()
+#elif defined(__JBIT__)
+#  define CLK_TCK               100     /* POSIX */
+#  define CLOCKS_PER_SEC        100     /* ANSI */
 #elif defined(__ATMOS__)
 #  define CLK_TCK               100     /* POSIX */
 #  define CLOCKS_PER_SEC        100     /* ANSI */
