@@ -1309,8 +1309,8 @@ int main (int argc, char* argv [])
     CmdInit (&GRC,  CmdPath, "grc65");
     xfree (CmdPath);
 
-    /* Our default target is the JBIT instead of "none" */
-    Target = TGT_JBIT;
+    /* Our default target is the C64 instead of "none" */
+    Target = TGT_C64;
 
     /* Check the parameters */
     I = 1;

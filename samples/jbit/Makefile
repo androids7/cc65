@@ -5,7 +5,7 @@
 #
 
 %.jb: %.c
-	../../bin/cl65 -O2 -o $@ $< ../../lib/jbit.lib
+	../../bin/cl65 -t jbit -O2 -o $@ $< ../../lib/jbit.lib
 
 .PHONY:	all
 all: \
