@@ -4,8 +4,13 @@
 # This Makefile requires GNU make
 #
 
+CL=../../bin/cl65
+
 %.jb: %.c
-	../../bin/cl65 -t jbit -O2 -o $@ $< ../../lib/jbit.lib
+	$(CL) -t jbit -O2 -o $@ $<
+
+%.prg: %.c
+	$(CL) -O2 -o $@ $< c64jb.c
 
 .PHONY:	all
 all: \
@@ -21,8 +26,10 @@ all: \
 	newline.jb \
 	pngtest.jb \
 	rand.jb \
-	time.jb
+	time.jb \
+	bounce.prg \
+	cpubm.prg
 
 .PHONY:	clean
 clean:
-	$(RM) -f *~ *.o *.jb
+	$(RM) -f *~ *.o *.jb *.prg

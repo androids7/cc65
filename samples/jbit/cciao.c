@@ -2,7 +2,7 @@
 
 #include <conio.h>
 
-int main()
+int main(void)
 {
 	unsigned char cols, rows;
 
@@ -10,4 +10,5 @@ int main()
 	clrscr();
 	cputsxy((cols - 4) >> 1, (rows - 1) >> 1, "CIAO");
 	cgetc();
+	return 0;
 }

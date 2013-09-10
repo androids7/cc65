@@ -27,7 +27,7 @@ void setup_console()
 
 #endif
 
-int main()
+int main(void)
 {
 	unsigned char cols, rows;
 	signed char x = 4, y = 0, dx = 1, dy = 1;

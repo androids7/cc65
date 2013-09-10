@@ -4,7 +4,7 @@
 #include <conio.h>
 #include <jbit.h>
 
-int main()
+int main(void)
 {
 	char s[16];
 	int n;
@@ -33,4 +33,5 @@ int main()
 	else
 		cputsxy(0, 2, "MIDP1");
 	cgetc();
+	return 0;
 }

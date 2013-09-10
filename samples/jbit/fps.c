@@ -41,7 +41,7 @@ void updateanim()
 	vsync();
 }
 
-int main()
+int main(void)
 {
 	screensize(&cols, &rows);
 	clrscr();

@@ -2,7 +2,7 @@
 
 #include <conio.h>
 
-int main()
+int main(void)
 {
 	unsigned char i, start, end, x, y;
 
@@ -16,4 +16,5 @@ int main()
 		cputc('\n');
 	}
 	cgetc();
+	return 0;
 }

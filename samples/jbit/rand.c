@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <conio.h>
 
-int main()
+int main(void)
 {
 	unsigned char x, y;
 
@@ -13,4 +13,5 @@ int main()
 	while (wherey() < y)
 		cputc(rand());
 	cgetc();
+	return 0;
 }

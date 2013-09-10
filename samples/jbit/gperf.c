@@ -120,7 +120,7 @@ static void create_background()
 		IO[TROWLO] = y;
 		for (x = 0; x < 50; x++) {
 			IO[TCOLLO] = x;
-			if (y & 1 == 1)
+			if ((y & 1) == 1)
 				IO[TCELL] = -1; // animated tile
 			else
 				IO[TCELL] = i;
@@ -293,7 +293,7 @@ static void main_loop()
 	}
 }
 
-void main(void)
+int main(void)
 {
 	setup();
 	create_background();
@@ -302,4 +302,5 @@ void main(void)
 	destroy_image();
 	create_instances();
 	main_loop();
+	return 0;
 }

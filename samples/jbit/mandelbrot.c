@@ -28,7 +28,6 @@
 #include <conio.h>
 
 #include <jbit.h>
-#define CLK_TCK 100
 
 
 /* Graphics definitions */

@@ -27,7 +27,6 @@ static void resize(char, char) {}
 #else
 
 #include <jbit.h>
-#define CLK_TCK 100
 
 static void resize(char cols, char rows)
 {
@@ -175,4 +174,5 @@ int main(void)
 	dt_c = clock() - t;
 
 	results();
+	return 0;
 }

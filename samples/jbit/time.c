@@ -25,16 +25,17 @@ void print_time()
 	cputsxy(0, i++, s);
 }
 
-int main()
+int main(void)
 {
 	screensize(&cols, &rows);
 	clrscr();
 	cputsxy(0, 0, "T");
-	while (1) {
+	while (!kbhit()) {
 		// time(&t); doesn't work!
 		t = time(0);
 		tm = gmtime(&t); // UTC
 		print_time();
 		vsync();
 	}
+	return 0;
 }

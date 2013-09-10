@@ -4,7 +4,7 @@
 #include <time.h>
 #include <conio.h>
 
-int main()
+int main(void)
 {
 	unsigned char cols, rows;
 	clock_t t;
@@ -14,10 +14,11 @@ int main()
 	screensize(&cols, &rows);
 	clrscr();
 	cputsxy(0, 0, "T");
-	while (1) {
+	while (!kbhit()) {
 		t = clock();
 		n = sprintf(s, "%ld", t);
 		cputsxy(cols - n, 0, s);
 		vsync();
 	}
+	return 0;
 }

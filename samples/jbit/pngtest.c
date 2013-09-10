@@ -16,7 +16,6 @@
 #include <time.h>
 #include <conio.h>
 #include <jbit.h>
-#define CLK_TCK 100
 
 #define MAX_SIZE 64
 #define IMAGE_ID 1
@@ -380,7 +379,7 @@ static void setup_main_menu()
 	cputsxy(0, 3, "0=Exit");
 }
 
-int main()
+int main(void)
 {
 	row = malloc(MAX_SIZE * 8);
 	setup_main_menu();
