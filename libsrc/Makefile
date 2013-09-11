@@ -22,6 +22,7 @@ TARGETS = apple2    \
           sim6502   \
           sim65c02  \
           jbit      \
+          xv65      \
           supervision
 
 DRVTYPES = emd \

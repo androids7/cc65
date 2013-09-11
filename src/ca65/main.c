@@ -302,6 +302,10 @@ static void SetSys (const char* Sys)
             NewSymbol ("__JBIT__", 1);
             break;
 
+        case TGT_XV65:
+            NewSymbol ("__XV65__", 1);
+            break;
+
         default:
             AbEnd ("Invalid target name: `%s'", Sys);
 

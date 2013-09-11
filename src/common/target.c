@@ -149,6 +149,7 @@ static const TargetEntry TargetMap[] = {
     {   "supervision",  TGT_SUPERVISION },
     {   "vc20",         TGT_VIC20       },
     {   "vic20",        TGT_VIC20       },
+    {   "xv65",         TGT_XV65        },
 };
 #define MAP_ENTRY_COUNT         (sizeof (TargetMap) / sizeof (TargetMap[0]))
 
@@ -180,6 +181,7 @@ static const TargetProperties PropertyTable[TGT_COUNT] = {
     { "sim6502",        CPU_6502,       BINFMT_BINARY,      CTNone  },
     { "sim65c02",       CPU_65C02,      BINFMT_BINARY,      CTNone  },
     { "jbit",           CPU_6502,       BINFMT_BINARY,      CTNone  },
+    { "xv65",           CPU_6502,       BINFMT_BINARY,      CTNone  },
 };
 
 /* Target system */

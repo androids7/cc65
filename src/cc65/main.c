@@ -258,6 +258,10 @@ static void SetSys (const char* Sys)
             DefineNumericMacro ("__JBIT__", 1);
             break;
 
+        case TGT_XV65:
+            DefineNumericMacro ("__XV65__", 1);
+            break;
+
         default:
             AbEnd ("Unknown target system type %d", Target);
     }
