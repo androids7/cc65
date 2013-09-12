@@ -58,8 +58,9 @@ long sys_fork() {
 	return *(long *)REQDAT;
 }
 
-void sys_exit(int /*status*/) {
+void sys_exit(int status) {
 	req_put(REQ_EXIT);
+	req_put_value(status, 2);
 	req_end();
 }
 
@@ -99,13 +100,29 @@ void sys_sleep(unsigned w) {
 	req_end();
 }
 
-void sys_exec(const char *prg, char *args[]) {
+void sys_exec(const char *filename, char *argv[]) {
 	int i;
 
 	req_put(REQ_EXEC);
-	req_put_string(prg);
-	for (i = 0; args[i]; i++)
-		req_put_string(args[i]);
+	req_put_string(filename);
+	for (i = 0; argv[i]; i++)
+		req_put_string(argv[i]);
+	req_end();
+}
+
+int sys_open(const char *filename, int flags) {
+	req_put(REQ_OPEN);
+	req_put_string(filename);
+	req_put(flags);
+	req_end();
+	if (req_res())
+		return -1;
+	return *(byte *)REQDAT;
+}
+
+void sys_close(int fd) {
+	req_put(REQ_CLOSE);
+	req_put(fd);
 	req_end();
 }
 
@@ -172,7 +189,20 @@ void test4() {
 	}
 }
 
+#define TEST_FILE "/tmp/cc65_xv65_test.dat"
+
+void test5() {
+	int fd;
+
+	fd = sys_open(TEST_FILE, XV65_O_RDWR|XV65_O_CREAT);
+	if (fd == -1) {
+		printf("couldn't open " TEST_FILE "\n");
+		return;
+	}
+	sys_close(fd);
+}
+
 int main(void) {
-	test4();
+	test5();
 	return 0;
 }
