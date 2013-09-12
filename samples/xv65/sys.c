@@ -111,11 +111,15 @@ void test3() {
 
 	/*
 		The size of pid is assumed to be 4 bytes, so long is fine.
-		To be conpatible with systems with pid == 8,
+		To be compatible with systems with pid == 8,
 		you could treat pids as opaque data buffers and always
 		reserve 8 bytes for each of them.
 		The actual size used by xv65 (the amount you need to copy,
 		check, etc... is available in PIDSIZE).
+
+		REQRES is a return code set at every request.
+		REQERRNO is a "sticky" code that remembers the last failed
+		return code - it can be (re)set by the program.
 	*/
 	printf("size of long is %d (expecting 4)\n", sizeof(long));
 	printf("size of pid_t is %d (expecting 4)\n", *((char *)PIDSIZE));
@@ -126,14 +130,14 @@ void test3() {
 		sys_sleep(w);
 		printf("parent: interrupting child\n");
 		// SIGALRM is silently handled by the current vers. of xv65
-		sys_kill(pid, KILL_SIGALRM);
+		sys_kill(pid, XV65_SIGALRM);
 		pid = sys_wait();
 		printf("child %ld is done\n", pid);
 	} else if (pid == 0) {
 		pid = sys_getpid();
 		printf("children (%ld): waiting %ds\n", pid, w = 1000);
 		sys_sleep(w);
-		printf("children: interrupted, exiting\n");
+		printf("children: errno %d, remaining %ds - exiting\n", *(char *)REQERRNO, *(int *)REQDAT);
 	}
 }
 int main(void) {
