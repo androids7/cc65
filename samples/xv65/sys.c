@@ -136,17 +136,37 @@ int do_rdwr(int fd, void *buf, int n, int req_id) {
 }
 
 int sys_read(int fd, void *buf, int n) {
-	return do_rdwr(fd, buf, n, 0);
+	return do_rdwr(fd, buf, n, REQ_READ);
 }
 
 int sys_write(int fd, void *buf, int n) {
-	return do_rdwr(fd, buf, n, 1);
+	return do_rdwr(fd, buf, n, REQ_WRITE);
 }
 
-void sys_close(int fd) {
+int sys_close(int fd) {
 	req_put(REQ_CLOSE);
 	req_put(fd);
 	req_end();
+	return req_res();
+}
+
+int sys_pipe(int *p) {
+	req_put(REQ_PIPE);
+	req_end();
+	if (req_res())
+		return -1;
+	p[0] = *(int *)REQDAT;
+	p[1] = *(int *)(REQDAT + 8);
+	return 0;
+}
+
+int sys_dup(int fd) {
+	req_put(REQ_DUP);
+	req_put(fd);
+	req_end();
+	if (req_res())
+		return -1;
+	return *(byte *)REQDAT;
 }
 
 int do_filename(const char *filename, int req_id) {
@@ -286,7 +306,29 @@ void test7() {
 	CHECK("unlink" TEST_FILE);
 }
 
+void test8() {
+	int p[2];
+	char *argv[3];
+
+	argv[0] = "wc";
+	argv[1] = "-c";
+	argv[2] = 0;
+
+	sys_pipe(p);
+	if (sys_fork() == 0) {
+		sys_close(0);
+		sys_dup(p[0]);
+		sys_close(p[0]);
+		sys_close(p[1]);
+		sys_exec("/usr/bin/wc", argv);
+	} else {
+		sys_write(p[1], "hello world\n", 12);
+		sys_close(p[0]);
+		sys_close(p[1]);
+	}
+}
+
 int main(void) {
-	test7();
+	test8();
 	return 0;
 }
