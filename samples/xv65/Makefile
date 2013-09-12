@@ -15,6 +15,7 @@ HDR=../../libsrc/xv65/header
 
 .PHONY:	all
 all: \
+	sys.jb \
 	req.jb \
 	hello.jb
 
