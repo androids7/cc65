@@ -1,5 +1,6 @@
 // test system calls
 
+#include <stdio.h>
 #include <xv65.h>
 
 #define putchar(x)	(*(unsigned char*)PUTCHAR = (x))
@@ -10,11 +11,12 @@
 
 typedef unsigned char byte;
 
-void print(const char *s) {
-	unsigned char i, c;
-	for (i = 0; c = s[i]; i++)
-		putchar(c);
-	putchar('\n');
+int __fastcall__ write (int, const void* buf, unsigned count) {
+	const char *s = (const char *)buf;
+	unsigned i;
+	for (i = 0; i < count; i++)
+		putchar(s[i]);
+	return count;
 }
 
 void debug(byte mode) {
@@ -50,7 +52,7 @@ long sys_wait() {
 
 void test1() {
 	sys_exit(0);
-	print("error: should not be reached");
+	printf("error: should not be reached\n");
 }
 
 void test2() {
@@ -58,14 +60,14 @@ void test2() {
 
 	pid = sys_fork();
 	if (pid > 0) {
-		print("parent");
+		printf("parent: child=%ld\n", pid);
 		pid = sys_wait();
-		print("child is done");
+		printf("child %ld is done\n", pid);
 	} else if (pid == 0) {
-		print("childern: exiting");
+		printf("childern: exiting\n");
 		sys_exit(0);
 	} else {
-		print("fork error");
+		printf("fork error\n");
 	}
 }
 
