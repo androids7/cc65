@@ -56,11 +56,17 @@ long sys_wait() {
 	return *(long *)REQDAT;
 }
 
-void sys_kill(long pid) {
+void sys_kill(long pid, byte sig) {
 	req_put(REQ_SYS_kill);
-	req_put(15); // optional (15 - SIGTERM is already the default)
+	req_put(sig); // optional (15 - SIGTERM is the default)
 	*(long *)REQDAT = pid;
 	req_end();
+}
+
+long sys_getpid() {
+	req_put(REQ_SYS_getpid);
+	req_end();
+	return *(long *)REQDAT;
 }
 
 void sys_sleep(unsigned w) {
@@ -103,18 +109,31 @@ void test3() {
 	long pid;
 	int w;
 
+	/*
+		The size of pid is assumed to be 4 bytes, so long is fine.
+		To be conpatible with systems with pid == 8,
+		you could treat pids as opaque data buffers and always
+		reserve 8 bytes for each of them.
+		The actual size used by xv65 (the amount you need to copy,
+		check, etc... is available in PIDSIZE).
+	*/
+	printf("size of long is %d (expecting 4)\n", sizeof(long));
+	printf("size of pid_t is %d (expecting 4)\n", *((char *)PIDSIZE));
 	pid = sys_fork();
 	if (pid > 0) {
 		printf("parent: child=%ld\n", pid);
 		printf("parent: waiting %ds\n", w = 3);
 		sys_sleep(w);
-		printf("parent: killing child\n");
-		sys_kill(pid);
+		printf("parent: interrupting child\n");
+		// SIGALRM is silently handled by the current vers. of xv65
+		sys_kill(pid, KILL_SIGALRM);
 		pid = sys_wait();
 		printf("child %ld is done\n", pid);
 	} else if (pid == 0) {
-		printf("children: waiting %ds\n", w = 1000);
+		pid = sys_getpid();
+		printf("children (%ld): waiting %ds\n", pid, w = 1000);
 		sys_sleep(w);
+		printf("children: interrupted, exiting\n");
 	}
 }
 int main(void) {
