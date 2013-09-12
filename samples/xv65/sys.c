@@ -43,6 +43,13 @@ void req_put_value(int size, long value) {
 		req_put(buf[i]);
 }
 
+void req_put_string(const char *s) {
+	char c;
+	while (c = *s++)
+		req_put(c);
+	req_put(0);
+}
+
 long sys_fork() {
 	req_put(REQ_FORK);
 	req_end();
@@ -92,6 +99,16 @@ void sys_sleep(unsigned w) {
 	req_end();
 }
 
+void sys_exec(const char *prg, char *args[]) {
+	int i;
+
+	req_put(REQ_EXEC);
+	req_put_string(prg);
+	for (i = 0; args[i]; i++)
+		req_put_string(args[i]);
+	req_end();
+}
+
 void test1() {
 	sys_exit(0);
 	printf("error: should not be reached\n");
@@ -137,7 +154,25 @@ void test3() {
 	}
 }
 
+void test4() {
+	long pid;
+
+	printf("starting child for uname...\n");
+	pid = sys_fork();
+	if (pid > 0) {
+		pid = sys_wait();
+		printf("...done\n");
+	} else if (pid == 0) {
+		char *args[3];
+
+		args[0] = "uname";
+		args[1] = "-a";
+		args[2] = 0;
+		sys_exec("/bin/uname", args);
+	}
+}
+
 int main(void) {
-	test3();
+	test4();
 	return 0;
 }
