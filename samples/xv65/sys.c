@@ -52,6 +52,8 @@ void req_put_string(const char *s) {
 	req_put(0);
 }
 
+#define CHECK(name) printf("syscall %s returned %d\n", name, ret)
+
 long sys_fork() {
 	req_put(REQ_FORK);
 	req_end();
@@ -122,8 +124,8 @@ int sys_open(const char *filename, int flags) {
 	return *(byte *)REQDAT;
 }
 
-int do_rdwr(int fd, void *buf, int n, byte is_write) {
-	req_put(is_write ? REQ_WRITE : REQ_READ);
+int do_rdwr(int fd, void *buf, int n, int req_id) {
+	req_put(req_id);
 	req_put(fd);
 	req_put_value(2, (long)buf);
 	req_put_value(2, n);
@@ -145,6 +147,27 @@ void sys_close(int fd) {
 	req_put(REQ_CLOSE);
 	req_put(fd);
 	req_end();
+}
+
+int do_filename(const char *filename, int req_id) {
+	req_put(req_id);
+	req_put_string(filename);
+	req_end();
+	if (req_res())
+		return -1;
+	return 0;
+}
+
+int sys_chdir(const char *filename) {
+	return do_filename(filename, REQ_CHDIR);
+}
+
+int sys_mkdir(const char *filename) {
+	return do_filename(filename, REQ_MKDIR);
+}
+
+int sys_unlink(const char *filename) {
+	return do_filename(filename, REQ_UNLINK);
 }
 
 void test1() {
@@ -211,7 +234,7 @@ void test4() {
 }
 
 #define TEST_FILE "/tmp/cc65_xv65_test.dat"
-
+#define TEST_DIR "/tmp/cc65_xv65_test_dir"
 
 void test5() {
 	static const char *msg = "File created by xv65\n";
@@ -252,8 +275,18 @@ void test6() {
 	sys_close(fd);
 }
 
+void test7() {
+	int ret;
+
+	ret = sys_chdir("/tmp");
+	CHECK("chdir");
+	ret = sys_mkdir(TEST_DIR);
+	CHECK("mkdir " TEST_DIR);
+	ret = sys_unlink(TEST_FILE);
+	CHECK("unlink" TEST_FILE);
+}
+
 int main(void) {
-	test5();
-	test6();
+	test7();
 	return 0;
 }
