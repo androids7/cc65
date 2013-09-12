@@ -19,11 +19,22 @@ int __fastcall__ write (int, const void* buf, unsigned count) {
 	return count;
 }
 
-void debug(byte mode) {
-	req_put(REQ_DEBUG);
-	req_put(mode);
-	req_end();
-}
+/*
+
+These are just quick tests. A proper implementation should be written
+in assembly, hence the non-standard sys_ prefix.
+
+The size of pid is assumed to be 4 bytes, so long is fine. To be
+compatible with systems with pid == 8, you could treat pids as opaque
+data buffers and always reserve 8 bytes for each of them. The actual
+size used by xv65 (the amount you need to copy, check, etc... is
+available in PIDSIZE).
+
+REQRES is a return code set at every request. REQERRNO is a "sticky"
+code that remembers the last failed return code - it can be (re)set by
+the program.
+
+*/
 
 void req_put_value(int size, long value) {
 	int i;
@@ -32,11 +43,8 @@ void req_put_value(int size, long value) {
 		req_put(buf[i]);
 }
 
-// These are just quick tests. A proper implementation should be written
-// in assembly, hence the non-standard sys_ prefix.
-
 long sys_fork() {
-	req_put(REQ_SYS_fork);
+	req_put(REQ_FORK);
 	req_end();
 	if (req_res())
 		return -1;
@@ -44,12 +52,12 @@ long sys_fork() {
 }
 
 void sys_exit(int /*status*/) {
-	req_put(REQ_SYS_exit);
+	req_put(REQ_EXIT);
 	req_end();
 }
 
 long sys_wait() {
-	req_put(REQ_SYS_wait);
+	req_put(REQ_WAIT);
 	req_end();
 	if (req_res())
 		return -1;
@@ -57,20 +65,20 @@ long sys_wait() {
 }
 
 void sys_kill(long pid, byte sig) {
-	req_put(REQ_SYS_kill);
+	req_put(REQ_KILL);
 	req_put(sig); // optional (15 - SIGTERM is the default)
 	*(long *)REQDAT = pid;
 	req_end();
 }
 
 long sys_getpid() {
-	req_put(REQ_SYS_getpid);
+	req_put(REQ_GETPID);
 	req_end();
 	return *(long *)REQDAT;
 }
 
 void sys_sleep(unsigned w) {
-	req_put(REQ_SYS_sleep);
+	req_put(REQ_SLEEP);
 	/*
 		Trailing ints can be sent using 0 to 4 bytes.
 		Value is sign-extended and default to 0.
@@ -109,18 +117,6 @@ void test3() {
 	long pid;
 	int w;
 
-	/*
-		The size of pid is assumed to be 4 bytes, so long is fine.
-		To be compatible with systems with pid == 8,
-		you could treat pids as opaque data buffers and always
-		reserve 8 bytes for each of them.
-		The actual size used by xv65 (the amount you need to copy,
-		check, etc... is available in PIDSIZE).
-
-		REQRES is a return code set at every request.
-		REQERRNO is a "sticky" code that remembers the last failed
-		return code - it can be (re)set by the program.
-	*/
 	printf("size of long is %d (expecting 4)\n", sizeof(long));
 	printf("size of pid_t is %d (expecting 4)\n", *((char *)PIDSIZE));
 	pid = sys_fork();
@@ -140,6 +136,7 @@ void test3() {
 		printf("children: errno %d, remaining %ds - exiting\n", *(char *)REQERRNO, *(int *)REQDAT);
 	}
 }
+
 int main(void) {
 	test3();
 	return 0;

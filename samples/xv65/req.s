@@ -4,15 +4,13 @@
 
 .code
 
-	lda	#REQ_DEBUG
-	sta	REQPUT
-	lda	#1
+	lda	#REQ_GETPID
 	sta	REQPUT
 	sta	REQEND
 
 	lda	#>_data_start_
 	sta	REQPTRHI
-	lda	#<debug
+	lda	#<getpid
 	sta	REQPTRLO
 
 	brk
@@ -20,6 +18,6 @@
 .data
 _data_start_:
 
-debug: req
-	.byte	REQ_DEBUG, 0
+getpid: req
+	.byte	REQ_GETPID
 endreq
