@@ -1,6 +1,8 @@
 // test system calls
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <xv65.h>
 
 #define putchar(x)	(*(unsigned char*)PUTCHAR = (x))
@@ -120,6 +122,25 @@ int sys_open(const char *filename, int flags) {
 	return *(byte *)REQDAT;
 }
 
+int do_rdwr(int fd, void *buf, int n, byte is_write) {
+	req_put(is_write ? REQ_WRITE : REQ_READ);
+	req_put(fd);
+	req_put_value(2, (long)buf);
+	req_put_value(2, n);
+	req_end();
+	if (req_res())
+		return -1;
+	return *(int *)REQDAT;
+}
+
+int sys_read(int fd, void *buf, int n) {
+	return do_rdwr(fd, buf, n, 0);
+}
+
+int sys_write(int fd, void *buf, int n) {
+	return do_rdwr(fd, buf, n, 1);
+}
+
 void sys_close(int fd) {
 	req_put(REQ_CLOSE);
 	req_put(fd);
@@ -191,18 +212,48 @@ void test4() {
 
 #define TEST_FILE "/tmp/cc65_xv65_test.dat"
 
-void test5() {
-	int fd;
 
-	fd = sys_open(TEST_FILE, XV65_O_RDWR|XV65_O_CREAT);
+void test5() {
+	static const char *msg = "File created by xv65\n";
+	int fd, n, len;
+
+	fd = sys_open(TEST_FILE, XV65_O_WRONLY|XV65_O_CREAT);
 	if (fd == -1) {
-		printf("couldn't open " TEST_FILE "\n");
+		printf("couldn't open " TEST_FILE " for writing\n");
 		return;
+	}
+	len = strlen(msg);
+	n = sys_write(fd, msg, len);
+	printf("write returned %d (expected %d)\n", n, len);
+	sys_close(fd);
+}
+
+void test6() {
+	char *buf;
+	int fd, i, n, len = 1024;
+
+	if ((buf = malloc(len)) == NULL) {
+		printf("couldn't allocate buf (%d bytes)\n", len);
+		return;
+	}
+	fd = sys_open(TEST_FILE, XV65_O_RDONLY);
+	if (fd == -1) {
+		printf("couldn't open " TEST_FILE " for reading\n");
+		free(buf);
+		return;
+	}
+	n = sys_read(fd, buf, len);
+	printf("read returned %d\n", n);
+	if (n > 0) {
+		printf("content follows: \n");
+		for (i = 0; i < n; i++)
+			putchar(buf[i]);
 	}
 	sys_close(fd);
 }
 
 int main(void) {
 	test5();
+	test6();
 	return 0;
 }
