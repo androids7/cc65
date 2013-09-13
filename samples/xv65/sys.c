@@ -147,7 +147,8 @@ int sys_close(int fd) {
 	req_put(REQ_CLOSE);
 	req_put(fd);
 	req_end();
-	return req_res();
+	if (req_res())
+		return -1;
 }
 
 int sys_pipe(int *p) {
@@ -190,12 +191,12 @@ int sys_unlink(const char *filename) {
 	return do_filename(filename, REQ_UNLINK);
 }
 
-void test1() {
+void test_exit() {
 	sys_exit(0);
 	printf("error: should not be reached\n");
 }
 
-void test2() {
+void test_fork() {
 	long pid;
 
 	pid = sys_fork();
@@ -211,7 +212,7 @@ void test2() {
 	}
 }
 
-void test3() {
+void test_kill() {
 	long pid;
 	int w;
 
@@ -235,7 +236,7 @@ void test3() {
 	}
 }
 
-void test4() {
+void test_exec() {
 	long pid;
 
 	printf("starting child for uname...\n");
@@ -256,7 +257,7 @@ void test4() {
 #define TEST_FILE "/tmp/cc65_xv65_test.dat"
 #define TEST_DIR "/tmp/cc65_xv65_test_dir"
 
-void test5() {
+void test_write() {
 	static const char *msg = "File created by xv65\n";
 	int fd, n, len;
 
@@ -271,7 +272,7 @@ void test5() {
 	sys_close(fd);
 }
 
-void test6() {
+void test_read() {
 	char *buf;
 	int fd, i, n, len = 1024;
 
@@ -295,7 +296,7 @@ void test6() {
 	sys_close(fd);
 }
 
-void test7() {
+void test_filename() {
 	int ret;
 
 	ret = sys_chdir("/tmp");
@@ -306,7 +307,7 @@ void test7() {
 	CHECK("unlink" TEST_FILE);
 }
 
-void test8() {
+void test_pipe() {
 	int p[2];
 	char *argv[3];
 
@@ -328,7 +329,67 @@ void test8() {
 	}
 }
 
+struct test {
+	void (*f)(void);
+	const char *id;
+};
+
+struct test test_cases[] = {
+	{ test_exit, "exit" },
+	{ test_fork, "fork" },
+	{ test_kill, "kill" },
+	{ test_exec, "exec" },
+	{ test_write, "write" },
+	{ test_read, "read" },
+	{ test_filename, "filename" },
+	{ test_pipe, "pipe" },
+};
+
+#define N_OF_TEST_CASES (sizeof(test_cases) / sizeof(struct test))
+
+int main_with_args(int argc, char *argv[]) {
+	int i = 0;
+	if (argc != 2) {
+		printf("usage: %s test_case\n", argv[0]);
+		return 1;
+	}
+	for (i = 0; i < N_OF_TEST_CASES; i++) {
+		if (!strcmp(argv[1], test_cases[i].id)) {
+			test_cases[i].f();
+			return 0;
+		}
+	}
+	printf("%s: unknown test case, select one from:\n", argv[0]);
+	for (i = 0; i < N_OF_TEST_CASES; i++)
+		printf("%s\n", test_cases[i].id);
+	return 1;
+}
+
 int main(void) {
-	test8();
+	int i, len, ret, argc;
+	char **argv;
+
+	req_put(REQ_ARGC);
+	req_end();
+	argc = *(int *)REQDAT;
+	argv = (char **)malloc(sizeof(char *) * (argc + 1));
+	for (i = 0; i < argc; i++) {
+		req_put(REQ_ARGV);
+		req_put_value(2, 0); // addr - don't care
+		req_put_value(2, 0); // len - not enough; will get right size
+		req_put_value(4, i); // 4 bytes should be enough ;)
+		req_end();
+		len = *(int *)REQDAT;
+		argv[i] = (char *)malloc(len);
+		req_put(REQ_ARGV);
+		req_put_value(2, (long)argv[i]);
+		req_put_value(2, len);
+		req_put_value(4, i);
+		req_end();
+//		printf("%d %s\n", i, argv[i]);
+	}
+	argv[i] = 0;
+	ret = main_with_args(argc, argv);
+	sys_exit(ret);
 	return 0;
 }
