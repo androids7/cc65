@@ -18,6 +18,7 @@ all: \
 	sys.jb \
 	req.jb \
 	console.jb \
+	scratch.jb \
 	hello.jb
 
 .PHONY:	clean

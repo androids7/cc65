@@ -9,7 +9,6 @@
 #define req_put(x)	(*(unsigned char*)REQPUT = (x))
 #define req_end()	(*(unsigned char*)REQEND = 0)
 #define req_res()	(*(unsigned char*)REQRES)
-#define req_dat(x)	(((unsigned char*)REQRES)[(x)])
 
 typedef unsigned char byte;
 
