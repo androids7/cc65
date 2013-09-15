@@ -51,8 +51,6 @@ void req_put_string(const char *s) {
 	req_put(0);
 }
 
-#define CHECK(name) printf("syscall %s returned %d\n", name, ret)
-
 long sys_fork() {
 	req_put(REQ_FORK);
 	req_end();
@@ -92,11 +90,11 @@ void sys_sleep(unsigned w) {
 	req_put(REQ_SLEEP);
 	/*
 		Trailing ints can be sent using 0 to 4 bytes.
-		Value is sign-extended and default to 0.
+		Value is UNSIGNED and default to 0.
 	*/
 	if (w == 0)
 		req_put_value(0, w);
-	else if (w > 127)
+	else if (w > 255)
 		req_put_value(4, w);
 	else
 		req_put_value(1, w);
@@ -299,11 +297,8 @@ void test_filename() {
 	int ret;
 
 	ret = sys_chdir("/tmp");
-	CHECK("chdir");
 	ret = sys_mkdir(TEST_DIR);
-	CHECK("mkdir " TEST_DIR);
 	ret = sys_unlink(TEST_FILE);
-	CHECK("unlink" TEST_FILE);
 }
 
 void test_pipe() {
@@ -368,6 +363,8 @@ int main(void) {
 	int i, len, ret, argc;
 	char **argv;
 
+	*(char*)TRCLEVEL = 2;
+	//*(char*)ERREXIT = 1;
 	req_put(REQ_ARGC);
 	req_end();
 	argc = *(int *)REQDAT;

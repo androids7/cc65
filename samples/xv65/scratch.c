@@ -1,4 +1,4 @@
-// scratchpad
+// scratch
 
 #include <stdio.h>
 #include <xv65.h>
@@ -8,8 +8,6 @@
 #define req_end()	(*(unsigned char*)REQEND = 0)
 #define req_res()	(*(unsigned char*)REQRES)
 
-typedef unsigned char byte;
-
 int __fastcall__ write (int, const void* buf, unsigned count) {
 	const char *s = (const char *)buf;
 	unsigned i;
@@ -18,11 +16,10 @@ int __fastcall__ write (int, const void* buf, unsigned count) {
 	return count;
 }
 
-void req_put_value(int size, long value) {
-	int i;
-	char *buf = (char *)&value;
-	for (i = 0; i < size; i++)
-		req_put(buf[i]);
+void req_put_word(unsigned int value) {
+	unsigned char *p = (unsigned char *)&value;
+	req_put(p[0]);
+	req_put(p[1]);
 }
 
 void req_put_string(const char *s) {
@@ -32,7 +29,7 @@ void req_put_string(const char *s) {
 	req_put(0);
 }
 
-void dump_mem(byte *p, unsigned int size) {
+void dump_mem(unsigned char *p, unsigned int size) {
 	int i;
 
 	for (i = 0; i < size; i++)
