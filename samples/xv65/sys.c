@@ -188,6 +188,10 @@ int sys_unlink(const char *filename) {
 	return do_filename(filename, REQ_UNLINK);
 }
 
+int sys_rmdir(const char *filename) {
+	return do_filename(filename, REQ_RMDIR);
+}
+
 void test_exit() {
 	sys_exit(0);
 	printf("error: should not be reached\n");
@@ -293,12 +297,14 @@ void test_read() {
 	sys_close(fd);
 }
 
-void test_filename() {
-	int ret;
+void test_unlink() {
+	sys_unlink(TEST_FILE);
+}
 
-	ret = sys_chdir("/tmp");
-	ret = sys_mkdir(TEST_DIR);
-	ret = sys_unlink(TEST_FILE);
+void test_dirs() {
+	sys_chdir("/tmp");
+	sys_mkdir(TEST_DIR);
+	sys_rmdir(TEST_DIR);
 }
 
 void test_pipe() {
@@ -335,7 +341,8 @@ struct test test_cases[] = {
 	{ test_exec, "exec" },
 	{ test_write, "write" },
 	{ test_read, "read" },
-	{ test_filename, "filename" },
+	{ test_unlink, "unlink" },
+	{ test_dirs, "dirs" },
 	{ test_pipe, "pipe" },
 };
 
