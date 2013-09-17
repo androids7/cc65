@@ -44,6 +44,7 @@ int sys_exit(int status);
 xv65_pid_t sys_wait(void);
 int sys_kill(xv65_pid_t pid, byte sig);
 xv65_pid_t sys_getpid(void);
+int sys_sleep(unsigned int sec);
 int sys_exec(const char *filename, char *argv[]);
 int sys_open(const char *filename, int flags);
 int sys_read(int fd, void *buf, int n);
@@ -55,5 +56,4 @@ int sys_chdir(const char *filename);
 int sys_mkdir(const char *filename);
 int sys_unlink(const char *filename);
 
-int sys_sleep(unsigned int sec);
 int sys_rmdir(const char *filename);
