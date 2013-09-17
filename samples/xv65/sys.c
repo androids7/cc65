@@ -84,6 +84,18 @@ int sys_exec(const char *filename, char *argv[]) {
 	return *(int *)REQRES;
 }
 
+int sys_fstat(int fd, struct xv65_stat *buf) {
+	req_put(REQ_FSTAT);
+	req_put(fd);
+	req_end();
+	if (req_res())
+		return -1;
+	buf->type = *(unsigned char *)REQDAT;
+	buf->size = ((unsigned long *)REQDAT2)[0];
+	buf->size_hi = ((unsigned long *)REQDAT2)[1];
+	return 0;
+}
+
 int sys_open(const char *filename, int flags) {
 	req_put(REQ_OPEN);
 	req_put_string(filename);
@@ -163,4 +175,10 @@ int sys_unlink(const char *filename) {
 
 int sys_rmdir(const char *filename) {
 	return do_filename(filename, REQ_RMDIR);
+}
+
+unsigned long sys_time(void) {
+	req_put(REQ_TIME);
+	req_end();
+	return *(unsigned long *)REQDAT;
 }

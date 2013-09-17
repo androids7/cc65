@@ -14,6 +14,12 @@ available in PIDSIZE).
 */
 typedef long xv65_pid_t;
 
+struct xv65_stat {
+	unsigned char type;
+	unsigned long size;
+	unsigned long size_hi;
+};
+
 typedef unsigned char byte;
 
 void req_put_word(unsigned int value);
@@ -46,6 +52,7 @@ int sys_kill(xv65_pid_t pid, byte sig);
 xv65_pid_t sys_getpid(void);
 int sys_sleep(unsigned int sec);
 int sys_exec(const char *filename, char *argv[]);
+int sys_fstat(int fd, struct xv65_stat *buf);
 int sys_open(const char *filename, int flags);
 int sys_read(int fd, void *buf, int n);
 int sys_write(int fd, void *buf, int n);
@@ -56,4 +63,5 @@ int sys_chdir(const char *filename);
 int sys_mkdir(const char *filename);
 int sys_unlink(const char *filename);
 
+unsigned long sys_time();
 int sys_rmdir(const char *filename);

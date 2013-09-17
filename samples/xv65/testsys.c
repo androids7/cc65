@@ -88,6 +88,22 @@ void test_write() {
 	sys_close(fd);
 }
 
+void test_fstat() {
+	static struct xv65_stat sb;
+	int fd;
+
+	fd = sys_open(TEST_FILE, XV65_O_RDONLY);
+	if (fd == -1) {
+		printf("couldn't open " TEST_FILE " for reading\n");
+		return;
+	}
+	if (sys_fstat(fd, &sb) == 0)
+		printf(TEST_FILE " fstat: type: %d, size: %ld:%ld\n", sb.type, sb.size_hi, sb.size);
+	else
+		printf(TEST_FILE " fstat: failed\n");
+	sys_close(fd);
+}
+
 void test_read() {
 	char *buf;
 	int fd, i, n, len = 1024;
@@ -144,6 +160,12 @@ void test_pipe() {
 	}
 }
 
+void test_time() {
+	unsigned long t;
+	t = sys_time();
+	printf("time: %ld\n",t);
+}
+
 struct test {
 	void (*f)(void);
 	const char *id;
@@ -155,10 +177,12 @@ struct test test_cases[] = {
 	{ test_kill, "kill" },
 	{ test_exec, "exec" },
 	{ test_write, "write" },
+	{ test_fstat, "fstat" },
 	{ test_read, "read" },
 	{ test_unlink, "unlink" },
 	{ test_dirs, "dirs" },
 	{ test_pipe, "pipe" },
+	{ test_time, "time" },
 };
 
 #define N_OF_TEST_CASES (sizeof(test_cases) / sizeof(struct test))
