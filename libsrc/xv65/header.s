@@ -11,8 +11,8 @@
 
 .segment	"HEADER"
 
-	; xv65 Signature (4 bytes, charset is ASCII)
-	.byte	"xv65"
+	; JBit Signature (4 bytes, charset is ASCII)
+	.byte	"JBit"
 
 	; Header Length (Hi)
 	.byte	0
