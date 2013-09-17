@@ -15,12 +15,15 @@ HDR=../../libsrc/xv65/header
 
 .PHONY:	all
 all: \
-	sys.jb \
+	testsys.jb \
 	req.jb \
 	console.jb \
 	xtermpal.jb \
 	scratch.jb \
 	hello.jb
+
+testsys.jb: testsys.c
+	$(CL) -t xv65 -O2 -o $@ $< sys.c
 
 .PHONY:	clean
 clean:
