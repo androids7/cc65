@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <xv65.h>
+#include <_xv65.h>
 #include "sys.h"
 
 void test_exit() {

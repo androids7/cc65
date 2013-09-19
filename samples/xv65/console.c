@@ -1,7 +1,7 @@
 // console
 
 #include <stdio.h>
-#include <xv65.h>
+#include <_xv65.h>
 
 #define putchar(x)	(*(unsigned char*)PUTCHAR = (x))
 #define esc(x)		(*(unsigned char*)CONESC = (x))

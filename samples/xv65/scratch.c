@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-#include <xv65.h>
+#include <_xv65.h>
 #include "sys.h"
 
 // remove the following line if you link sys.c
