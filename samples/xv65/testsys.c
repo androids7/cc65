@@ -61,12 +61,13 @@ void test_exec() {
 		pid = sys_wait();
 		printf("...done\n");
 	} else if (pid == 0) {
-		char *args[3];
+		char *args[4];
 
-		args[0] = "uname";
-		args[1] = "-a";
-		args[2] = 0;
-		sys_exec("/bin/uname", args);
+		args[0] = "env";
+		args[1] = "uname";
+		args[2] = "-a";
+		args[3] = 0;
+		sys_exec("/usr/bin/env", args);
 	}
 }
 

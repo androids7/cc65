@@ -25,14 +25,14 @@ xv65_pid_t sys_fork(void) {
 	req_end();
 	if (req_res())
 		return -1;
-	return *(long *)REQDAT;
+	return *(xv65_pid_t *)REQDAT;
 }
 
 int sys_exit(int status) {
 	req_put(REQ_EXIT);
 	req_put_word(status);
 	req_end();
-	return *(int *)REQRES;
+	return req_res() ? -1 : 0;
 }
 
 xv65_pid_t sys_wait(void) {
@@ -48,7 +48,7 @@ int sys_kill(xv65_pid_t pid, byte sig) {
 	req_put(sig); // optional (15 - SIGTERM is the default)
 	*(long *)REQDAT = pid;
 	req_end();
-	return *(int *)REQRES;
+	return req_res() ? -1 : 0;
 }
 
 xv65_pid_t sys_getpid() {
@@ -70,7 +70,7 @@ int sys_sleep(unsigned int sec) {
 	else
 		req_put_word(sec);
 	req_end();
-	return *(int *)REQRES;
+	return req_res() ? -1 : 0;
 }
 
 int sys_exec(const char *filename, char *argv[]) {
@@ -81,7 +81,7 @@ int sys_exec(const char *filename, char *argv[]) {
 	for (i = 0; argv[i]; i++)
 		req_put_string(argv[i]);
 	req_end();
-	return *(int *)REQRES;
+	return req_res() ? -1 : 0;
 }
 
 int sys_fstat(int fd, struct xv65_stat *buf) {
@@ -129,8 +129,7 @@ int sys_close(int fd) {
 	req_put(REQ_CLOSE);
 	req_put(fd);
 	req_end();
-	if (req_res())
-		return -1;
+	return req_res() ? -1 : 0;
 }
 
 int sys_pipe(int *p) {
@@ -156,9 +155,7 @@ int do_filename(const char *filename, int req_id) {
 	req_put(req_id);
 	req_put_string(filename);
 	req_end();
-	if (req_res())
-		return -1;
-	return 0;
+	return req_res() ? -1 : 0;
 }
 
 int sys_chdir(const char *filename) {
