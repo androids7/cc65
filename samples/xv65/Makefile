@@ -32,6 +32,7 @@ pack:
 	zip -j $(PACK) \
 		../../asminc/xv65.inc \
 		../../asminc/jbit.inc \
+		../../include/_xv65.h \
 		../../include/xv65.h \
 		../../include/jbit.h \
 		../../cfg/xv65.cfg \
