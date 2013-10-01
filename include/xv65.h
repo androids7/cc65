@@ -33,4 +33,19 @@
 
 #include <_xv65.h>
 
+/*
+ * The size of pid is assumed to be 4 bytes, so long is fine. To be
+ * compatible with systems with pid == 8, you could treat pids as opaque
+ * data buffers and always reserve 8 bytes for each of them. The actual
+ * size used by xv65 (the amount you need to copy, check, etc... is
+ * available in PIDSIZE).
+*/
+typedef long pid_t;
+
+pid_t fork(void);
+int __fastcall__ _exit(int status);
+pid_t wait(void);
+int __fastcall__ kill(pid_t pid, unsigned char sig);
+pid_t getpid(void);
+
 #endif

@@ -28,7 +28,7 @@ xv65_pid_t sys_fork(void) {
 	return *(xv65_pid_t *)REQDAT;
 }
 
-int sys_exit(int status) {
+int __fastcall__ sys_exit(int status) {
 	req_put(REQ_EXIT);
 	req_put_word(status);
 	req_end();
@@ -43,7 +43,7 @@ xv65_pid_t sys_wait(void) {
 	return *(xv65_pid_t *)REQDAT;
 }
 
-int sys_kill(xv65_pid_t pid, byte sig) {
+int __fastcall__ sys_kill(xv65_pid_t pid, byte sig) {
 	req_put(REQ_KILL);
 	req_put(sig); // optional (15 - SIGTERM is the default)
 	*(long *)REQDAT = pid;
@@ -57,20 +57,22 @@ xv65_pid_t sys_getpid() {
 	return *(xv65_pid_t *)REQDAT;
 }
 
-int sys_sleep(unsigned int sec) {
+unsigned __fastcall__ sys_sleep(unsigned seconds) {
 	req_put(REQ_SLEEP);
 	/*
 		Trailing ints can be sent using 0 to 4 bytes.
-		Value is UNSIGNED and default to 0.
+		Value is UNSIGNED and default to 0. Example:
+
+		if (seconds == 0)
+			req_put_word(seconds);
+		else if (seconds > 255)
+			req_put_word(seconds);
+		else
+			req_put_word(seconds);
 	*/
-	if (sec == 0)
-		req_put_word(sec);
-	else if (sec > 255)
-		req_put_word(sec);
-	else
-		req_put_word(sec);
+	req_put_word(seconds);
 	req_end();
-	return req_res() ? -1 : 0;
+	return req_res() ? *(unsigned *)REQDAT : 0;
 }
 
 int sys_exec(const char *filename, char *argv[]) {

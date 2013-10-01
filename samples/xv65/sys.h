@@ -46,11 +46,11 @@ void req_put_string(const char *s) { \
 }
 
 xv65_pid_t sys_fork(void);
-int sys_exit(int status);
+int __fastcall__ sys_exit(int status);
 xv65_pid_t sys_wait(void);
-int sys_kill(xv65_pid_t pid, byte sig);
+int __fastcall__ sys_kill(xv65_pid_t pid, byte sig);
 xv65_pid_t sys_getpid(void);
-int sys_sleep(unsigned int sec);
+unsigned __fastcall__ sys_sleep(unsigned seconds);
 int sys_exec(const char *filename, char *argv[]);
 int sys_fstat(int fd, struct xv65_stat *buf);
 int sys_open(const char *filename, int flags);
@@ -65,3 +65,21 @@ int sys_unlink(const char *filename);
 
 unsigned long sys_time();
 int sys_rmdir(const char *filename);
+
+#ifdef USE_SAMPLE_SYSCALLS
+
+#include <_xv65.h>
+
+#define fork sys_fork
+#define _exit sys_exit
+#define wait sys_wait
+#define kill sys_kill
+#define getpid sys_getpid
+#define sleep sys_sleep
+
+#else
+
+#include <unistd.h>
+#include <xv65.h>
+
+#endif

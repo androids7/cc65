@@ -4,25 +4,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <_xv65.h>
 #include "sys.h"
 
 void test_exit() {
-	sys_exit(0);
+	_exit(0);
 	printf("error: should not be reached\n");
 }
 
 void test_fork() {
 	long pid;
 
-	pid = sys_fork();
+	pid = fork();
 	if (pid > 0) {
 		printf("parent: child=%ld\n", pid);
-		pid = sys_wait();
+		pid = wait();
 		printf("child %ld is done\n", pid);
 	} else if (pid == 0) {
 		printf("childern: exiting\n");
-		sys_exit(0);
+		_exit(0);
 	} else {
 		printf("fork error\n");
 	}
@@ -31,24 +30,25 @@ void test_fork() {
 void test_kill() {
 	long pid;
 	int w;
+	unsigned remaining;
 
 	printf("size of long is %d (expecting 4)\n", sizeof(long));
 	printf("size of pid_t is %d (expecting 4)\n", *((char *)PIDSIZE));
-	pid = sys_fork();
+	pid = fork();
 	if (pid > 0) {
 		printf("parent: child=%ld\n", pid);
 		printf("parent: waiting %ds\n", w = 3);
-		sys_sleep(w);
+		sleep(w);
 		printf("parent: interrupting child\n");
 		// SIGALRM is silently handled by the current vers. of xv65
-		sys_kill(pid, XV65_SIGALRM);
-		pid = sys_wait();
+		kill(pid, XV65_SIGALRM);
+		pid = wait();
 		printf("child %ld is done\n", pid);
 	} else if (pid == 0) {
-		pid = sys_getpid();
+		pid = getpid();
 		printf("children (%ld): waiting %ds\n", pid, w = 1000);
-		sys_sleep(w);
-		printf("children: errno %d, remaining %ds - exiting\n", *(char *)REQERRNO, *(int *)REQDAT);
+		remaining = sleep(w);
+		printf("children: remaining %ds - exiting\n", remaining);
 	}
 }
 
@@ -232,6 +232,6 @@ int main(void) {
 	}
 	argv[i] = 0;
 	ret = main_with_args(argc, argv);
-	sys_exit(ret);
+	_exit(ret);
 	return 0;
 }
