@@ -1,10 +1,5 @@
 // sys.h
 
-#define putchar(x)	(*(unsigned char*)PUTCHAR = (x))
-#define req_put(x)	(*(unsigned char*)REQPUT = (x))
-#define req_end()	(*(unsigned char*)REQEND = 0)
-#define req_res()	(*(unsigned char*)REQRES)
-
 /*
 The size of pid is assumed to be 4 bytes, so long is fine. To be
 compatible with systems with pid == 8, you could treat pids as opaque
@@ -22,15 +17,6 @@ struct xv65_stat {
 
 typedef unsigned char byte;
 
-#define DEFINE_MINI_SYS \
-int __fastcall__ write (int, const void* buf, unsigned count) { \
-	const char *s = (const char *)buf; \
-	unsigned i; \
-	for (i = 0; i < count; i++) \
-		putchar(s[i]); \
-	return count; \
-}
-
 xv65_pid_t sys_fork(void);
 int __fastcall__ sys_exit(int status);
 xv65_pid_t sys_wait(void);
@@ -39,10 +25,10 @@ xv65_pid_t sys_getpid(void);
 unsigned __fastcall__ sys_sleep(unsigned seconds);
 int sys_exec(const char *filename, char *argv[]);
 int sys_fstat(int fd, struct xv65_stat *buf);
-int sys_open(const char *filename, int flags);
-int sys_read(int fd, void *buf, int n);
-int sys_write(int fd, void *buf, int n);
-int sys_close(int fd);
+int sys_open(const char *filename, int flags, ...);
+int __fastcall__ sys_read(int fd, void *buf, int n);
+int __fastcall__ sys_write(int fd, void *buf, int n);
+int __fastcall__ sys_close(int fd);
 int sys_pipe(int *p);
 int sys_dup(int fd);
 int __fastcall__ sys_chdir(const char *filename);
@@ -62,6 +48,10 @@ int __fastcall__ sys_rmdir(const char *filename);
 #define kill sys_kill
 #define getpid sys_getpid
 #define sleep sys_sleep
+#define open sys_open
+#define read sys_read
+#define write sys_write
+#define close sys_close
 #define chdir sys_chdir
 #define xv65_mkdir sys_mkdir
 #define unlink sys_unlink
@@ -70,6 +60,7 @@ int __fastcall__ sys_rmdir(const char *filename);
 #else
 
 #include <unistd.h>
+#include <fcntl.h>
 #include <xv65.h>
 
 #endif

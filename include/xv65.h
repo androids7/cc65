@@ -50,12 +50,21 @@ pid_t getpid(void);
 
 int __fastcall__ xv65_mkdir(const char *filename);
 
+#define xv65_req_put(x) (*(unsigned char*)REQPUT = (x))
+#define xv65_req_end() (*(unsigned char*)REQEND = 0)
+#define xv65_req_res() (*(unsigned char*)REQRES)
+
 void __fastcall__ xv65_req_put_word(unsigned int value);
 void __fastcall__ xv65_req_put_string(const char *s);
 
 #ifndef XV65_NO_REQ_ALIASES
+
+#define req_put(x) xv65_req_put(x)
+#define req_end() xv65_req_end()
+#define req_res() xv65_req_res()
 #define req_put_word xv65_req_put_word
 #define req_put_string xv65_req_put_string
+
 #endif
 
 #endif

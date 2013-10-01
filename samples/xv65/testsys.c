@@ -79,22 +79,22 @@ void test_write() {
 	static const char *msg = "File created by xv65\n";
 	int fd, n, len;
 
-	fd = sys_open(TEST_FILE, XV65_O_WRONLY|XV65_O_CREAT);
+	fd = open(TEST_FILE, XV65_O_WRONLY|XV65_O_CREAT);
 	if (fd == -1) {
 		printf("couldn't open " TEST_FILE " for writing\n");
 		return;
 	}
 	len = strlen(msg);
-	n = sys_write(fd, msg, len);
+	n = write(fd, msg, len);
 	printf("write returned %d (expected %d)\n", n, len);
-	sys_close(fd);
+	close(fd);
 }
 
 void test_fstat() {
 	static struct xv65_stat sb;
 	int fd;
 
-	fd = sys_open(TEST_FILE, XV65_O_RDONLY);
+	fd = open(TEST_FILE, XV65_O_RDONLY);
 	if (fd == -1) {
 		printf("couldn't open " TEST_FILE " for reading\n");
 		return;
@@ -103,7 +103,7 @@ void test_fstat() {
 		printf(TEST_FILE " fstat: type: %d, size: %ld:%ld\n", sb.type, sb.size_hi, sb.size);
 	else
 		printf(TEST_FILE " fstat: failed\n");
-	sys_close(fd);
+	close(fd);
 }
 
 void test_read() {
@@ -114,20 +114,20 @@ void test_read() {
 		printf("couldn't allocate buf (%d bytes)\n", len);
 		return;
 	}
-	fd = sys_open(TEST_FILE, XV65_O_RDONLY);
+	fd = open(TEST_FILE, XV65_O_RDONLY);
 	if (fd == -1) {
 		printf("couldn't open " TEST_FILE " for reading\n");
 		free(buf);
 		return;
 	}
-	n = sys_read(fd, buf, len);
+	n = read(fd, buf, len);
 	printf("read returned %d\n", n);
 	if (n > 0) {
 		printf("content follows: \n");
 		for (i = 0; i < n; i++)
 			putchar(buf[i]);
 	}
-	sys_close(fd);
+	close(fd);
 }
 
 void test_unlink() {
@@ -150,15 +150,15 @@ void test_pipe() {
 
 	sys_pipe(p);
 	if (sys_fork() == 0) {
-		sys_close(0);
+		close(0);
 		sys_dup(p[0]);
-		sys_close(p[0]);
-		sys_close(p[1]);
+		close(p[0]);
+		close(p[1]);
 		sys_exec("/usr/bin/wc", argv);
 	} else {
-		sys_write(p[1], "hello world\n", 12);
-		sys_close(p[0]);
-		sys_close(p[1]);
+		write(p[1], "hello world\n", 12);
+		close(p[0]);
+		close(p[1]);
 	}
 }
 
@@ -211,7 +211,7 @@ int main(void) {
 	int i, len, ret, argc;
 	char **argv;
 
-	*(char*)TRCLEVEL = 2;
+	*(char*)TRCLEVEL = 1;
 	//*(char*)ERREXIT = 1;
 	req_put(REQ_ARGC);
 	req_end();

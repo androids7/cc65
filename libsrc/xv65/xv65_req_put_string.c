@@ -6,6 +6,6 @@
 void __fastcall__ xv65_req_put_string(const char *s) {
         unsigned char c;
         while (c = *s++)
-                *(unsigned char *)REQPUT = c;
-	*(unsigned char *)REQPUT = 0;
+                req_put(c);
+	req_put(0);
 }

@@ -6,8 +6,6 @@
 
 #include "sys.h"
 
-DEFINE_MINI_SYS
-
 /*
 
 These are just quick tests. A proper implementation should be written
@@ -97,7 +95,7 @@ int sys_fstat(int fd, struct xv65_stat *buf) {
 	return 0;
 }
 
-int sys_open(const char *filename, int flags) {
+int sys_open(const char *filename, int flags, ...) {
 	req_put(REQ_OPEN);
 	req_put_string(filename);
 	req_put(flags);
@@ -118,15 +116,15 @@ int do_rdwr(int fd, void *buf, int n, int req_id) {
 	return *(int *)REQDAT;
 }
 
-int sys_read(int fd, void *buf, int n) {
+int __fastcall__ sys_read(int fd, void *buf, int n) {
 	return do_rdwr(fd, buf, n, REQ_READ);
 }
 
-int sys_write(int fd, void *buf, int n) {
+int __fastcall__ sys_write(int fd, void *buf, int n) {
 	return do_rdwr(fd, buf, n, REQ_WRITE);
 }
 
-int sys_close(int fd) {
+int __fastcall__ sys_close(int fd) {
 	req_put(REQ_CLOSE);
 	req_put(fd);
 	req_end();

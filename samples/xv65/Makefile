@@ -19,7 +19,6 @@ all: \
 	req.jb \
 	console.jb \
 	xtermpal.jb \
-	scratch.jb \
 	hello.jb
 
 testsys.jb: testsys.c
