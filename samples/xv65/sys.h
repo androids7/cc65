@@ -22,9 +22,6 @@ struct xv65_stat {
 
 typedef unsigned char byte;
 
-void req_put_word(unsigned int value);
-void req_put_string(const char *s);
-
 #define DEFINE_MINI_SYS \
 int __fastcall__ write (int, const void* buf, unsigned count) { \
 	const char *s = (const char *)buf; \
@@ -32,17 +29,6 @@ int __fastcall__ write (int, const void* buf, unsigned count) { \
 	for (i = 0; i < count; i++) \
 		putchar(s[i]); \
 	return count; \
-} \
-void req_put_word(unsigned int value) { \
-	unsigned char *p = (unsigned char *)&value; \
-	req_put(p[0]); \
-	req_put(p[1]); \
-} \
-void req_put_string(const char *s) { \
-	char c; \
-	while (c = *s++) \
-		req_put(c); \
-	req_put(0); \
 }
 
 xv65_pid_t sys_fork(void);
@@ -59,12 +45,12 @@ int sys_write(int fd, void *buf, int n);
 int sys_close(int fd);
 int sys_pipe(int *p);
 int sys_dup(int fd);
-int sys_chdir(const char *filename);
-int sys_mkdir(const char *filename);
-int sys_unlink(const char *filename);
+int __fastcall__ sys_chdir(const char *filename);
+int __fastcall__ sys_mkdir(const char *filename);
+int __fastcall__ sys_unlink(const char *filename);
 
 unsigned long sys_time();
-int sys_rmdir(const char *filename);
+int __fastcall__ sys_rmdir(const char *filename);
 
 #ifdef USE_SAMPLE_SYSCALLS
 
@@ -76,6 +62,10 @@ int sys_rmdir(const char *filename);
 #define kill sys_kill
 #define getpid sys_getpid
 #define sleep sys_sleep
+#define chdir sys_chdir
+#define xv65_mkdir sys_mkdir
+#define unlink sys_unlink
+#define rmdir sys_rmdir
 
 #else
 

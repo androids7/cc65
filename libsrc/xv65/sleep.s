@@ -2,6 +2,7 @@
 ; Written by Emanuele Fornara
 
 	.export		_sleep
+	.import		_xv65_req_put_word
 
 	.include	"xv65.inc"
 
@@ -11,9 +12,8 @@
 _sleep:
 	ldy	#REQ_SLEEP
 	sty	REQPUT
-	sta	REQPUT
-	stx	REQPUT
-	stx	REQEND
+	jsr	_xv65_req_put_word
+	sta	REQEND
 	lda	REQRES
 	beq	@r0
 	lda	REQDAT

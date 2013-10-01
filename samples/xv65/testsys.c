@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+//#define USE_SAMPLE_SYSCALLS
 #include "sys.h"
 
 void test_exit() {
@@ -130,13 +131,13 @@ void test_read() {
 }
 
 void test_unlink() {
-	sys_unlink(TEST_FILE);
+	unlink(TEST_FILE);
 }
 
 void test_dirs() {
-	sys_chdir("/tmp");
-	sys_mkdir(TEST_DIR);
-	sys_rmdir(TEST_DIR);
+	chdir("/tmp");
+	mkdir(TEST_DIR);
+	rmdir(TEST_DIR);
 }
 
 void test_pipe() {

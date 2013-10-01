@@ -48,4 +48,14 @@ pid_t wait(void);
 int __fastcall__ kill(pid_t pid, unsigned char sig);
 pid_t getpid(void);
 
+int __fastcall__ xv65_mkdir(const char *filename);
+
+void __fastcall__ xv65_req_put_word(unsigned int value);
+void __fastcall__ xv65_req_put_string(const char *s);
+
+#ifndef XV65_NO_REQ_ALIASES
+#define req_put_word xv65_req_put_word
+#define req_put_string xv65_req_put_string
+#endif
+
 #endif

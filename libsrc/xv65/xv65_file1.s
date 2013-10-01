@@ -1,18 +1,16 @@
-; _exit.s
+; xv65_file1.s
 ; Written by Emanuele Fornara
 
-	.export		__exit
+	.export		xv65_file1
+	.import		_xv65_req_put_string
 	.import		xv65_ret_res
 
 	.include	"xv65.inc"
 
 .segment	"CODE"
 
-; int __fastcall__ _exit(int status)
-__exit:
-	ldy	#REQ_EXIT
+xv65_file1:
 	sty	REQPUT
-	sta	REQPUT
-	stx	REQPUT
+	jsr	_xv65_req_put_string
 	sta	REQEND
 	jmp	xv65_ret_res

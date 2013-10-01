@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <_xv65.h>
 #include "sys.h"
 
 DEFINE_MINI_SYS
@@ -160,19 +159,19 @@ int do_filename(const char *filename, int req_id) {
 	return req_res() ? -1 : 0;
 }
 
-int sys_chdir(const char *filename) {
+int __fastcall__ sys_chdir(const char *filename) {
 	return do_filename(filename, REQ_CHDIR);
 }
 
-int sys_mkdir(const char *filename) {
+int __fastcall__ sys_mkdir(const char *filename) {
 	return do_filename(filename, REQ_MKDIR);
 }
 
-int sys_unlink(const char *filename) {
+int __fastcall__ sys_unlink(const char *filename) {
 	return do_filename(filename, REQ_UNLINK);
 }
 
-int sys_rmdir(const char *filename) {
+int __fastcall__ sys_rmdir(const char *filename) {
 	return do_filename(filename, REQ_RMDIR);
 }
 
