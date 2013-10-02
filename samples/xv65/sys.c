@@ -173,8 +173,10 @@ int __fastcall__ sys_rmdir(const char *filename) {
 	return do_filename(filename, REQ_RMDIR);
 }
 
-unsigned long sys_time(void) {
+unsigned long __fastcall__ sys_time(unsigned long *t) {
 	req_put(REQ_TIME);
 	req_end();
+	if (t)
+		*t = *(unsigned long *)REQDAT;
 	return *(unsigned long *)REQDAT;
 }

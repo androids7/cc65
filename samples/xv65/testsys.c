@@ -163,9 +163,10 @@ void test_pipe() {
 }
 
 void test_time() {
-	unsigned long t;
-	t = sys_time();
-	printf("time: %ld\n",t);
+	unsigned long t0, t1, t2;
+	t0 = time(&t1);
+	t2 = time(NULL);
+	printf("time: %ld, %ld, %ld\n", t0, t1, t2);
 }
 
 struct test {

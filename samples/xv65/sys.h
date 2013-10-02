@@ -35,7 +35,7 @@ int __fastcall__ sys_chdir(const char *filename);
 int __fastcall__ sys_mkdir(const char *filename);
 int __fastcall__ sys_unlink(const char *filename);
 
-unsigned long sys_time();
+unsigned long __fastcall__ sys_time(unsigned long *t);
 int __fastcall__ sys_rmdir(const char *filename);
 
 #ifdef USE_SAMPLE_SYSCALLS
@@ -61,10 +61,12 @@ int __fastcall__ sys_rmdir(const char *filename);
 #define chdir sys_chdir
 #define xv65_mkdir sys_mkdir
 #define unlink sys_unlink
+#define time sys_time
 #define rmdir sys_rmdir
 
 #else
 
+#include <time.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <xv65.h>
