@@ -60,6 +60,9 @@ struct stat {
 
 int __fastcall__ fstat(int fd, struct stat *buf);
 
+int __fastcall__ pipe(int *p);
+int __fastcall__ dup(int fd);
+
 #define xv65_req_put(x) (*(unsigned char*)REQPUT = (x))
 #define xv65_req_end() (*(unsigned char*)REQEND = 0)
 #define xv65_req_res() (*(unsigned char*)REQRES)

@@ -131,7 +131,7 @@ int __fastcall__ sys_close(int fd) {
 	return req_res() ? -1 : 0;
 }
 
-int sys_pipe(int *p) {
+int __fastcall__ sys_pipe(int *p) {
 	req_put(REQ_PIPE);
 	req_end();
 	if (req_res())
@@ -141,7 +141,7 @@ int sys_pipe(int *p) {
 	return 0;
 }
 
-int sys_dup(int fd) {
+int __fastcall__ sys_dup(int fd) {
 	req_put(REQ_DUP);
 	req_put(fd);
 	req_end();

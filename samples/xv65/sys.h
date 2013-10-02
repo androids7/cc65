@@ -29,8 +29,8 @@ int sys_open(const char *filename, int flags, ...);
 int __fastcall__ sys_read(int fd, void *buf, int n);
 int __fastcall__ sys_write(int fd, void *buf, int n);
 int __fastcall__ sys_close(int fd);
-int sys_pipe(int *p);
-int sys_dup(int fd);
+int __fastcall__ sys_pipe(int *p);
+int __fastcall__ sys_dup(int fd);
 int __fastcall__ sys_chdir(const char *filename);
 int __fastcall__ sys_mkdir(const char *filename);
 int __fastcall__ sys_unlink(const char *filename);
@@ -56,6 +56,8 @@ int __fastcall__ sys_rmdir(const char *filename);
 #define read sys_read
 #define write sys_write
 #define close sys_close
+#define pipe sys_pipe
+#define dup sys_dup
 #define chdir sys_chdir
 #define xv65_mkdir sys_mkdir
 #define unlink sys_unlink

@@ -57,9 +57,9 @@ void test_exec() {
 	long pid;
 
 	printf("starting child for uname...\n");
-	pid = sys_fork();
+	pid = fork();
 	if (pid > 0) {
-		pid = sys_wait();
+		pid = wait();
 		printf("...done\n");
 	} else if (pid == 0) {
 		char *args[4];
@@ -68,7 +68,7 @@ void test_exec() {
 		args[1] = "uname";
 		args[2] = "-a";
 		args[3] = 0;
-		sys_execvp("/usr/bin/env", args);
+		execvp("/usr/bin/env", args);
 	}
 }
 
@@ -148,13 +148,13 @@ void test_pipe() {
 	argv[1] = "-c";
 	argv[2] = 0;
 
-	sys_pipe(p);
-	if (sys_fork() == 0) {
+	pipe(p);
+	if (fork() == 0) {
 		close(0);
-		sys_dup(p[0]);
+		dup(p[0]);
 		close(p[0]);
 		close(p[1]);
-		sys_execvp("/usr/bin/wc", argv);
+		execvp("/usr/bin/wc", argv);
 	} else {
 		write(p[1], "hello world\n", 12);
 		close(p[0]);
