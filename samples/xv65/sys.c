@@ -17,12 +17,12 @@ the program.
 
 */
 
-xv65_pid_t sys_fork(void) {
+sys_pid_t sys_fork(void) {
 	req_put(REQ_FORK);
 	req_end();
 	if (req_res())
 		return -1;
-	return *(xv65_pid_t *)REQDAT;
+	return *(sys_pid_t *)REQDAT;
 }
 
 int __fastcall__ sys_exit(int status) {
@@ -32,15 +32,15 @@ int __fastcall__ sys_exit(int status) {
 	return req_res() ? -1 : 0;
 }
 
-xv65_pid_t sys_wait(void) {
+sys_pid_t sys_wait(void) {
 	req_put(REQ_WAIT);
 	req_end();
 	if (req_res())
 		return -1;
-	return *(xv65_pid_t *)REQDAT;
+	return *(sys_pid_t *)REQDAT;
 }
 
-int __fastcall__ sys_kill(xv65_pid_t pid, byte sig) {
+int __fastcall__ sys_kill(sys_pid_t pid, byte sig) {
 	req_put(REQ_KILL);
 	req_put(sig); // optional (15 - SIGTERM is the default)
 	*(long *)REQDAT = pid;
@@ -48,10 +48,10 @@ int __fastcall__ sys_kill(xv65_pid_t pid, byte sig) {
 	return req_res() ? -1 : 0;
 }
 
-xv65_pid_t sys_getpid() {
+sys_pid_t sys_getpid() {
 	req_put(REQ_GETPID);
 	req_end();
-	return *(xv65_pid_t *)REQDAT;
+	return *(sys_pid_t *)REQDAT;
 }
 
 unsigned __fastcall__ sys_sleep(unsigned seconds) {
@@ -72,8 +72,8 @@ unsigned __fastcall__ sys_sleep(unsigned seconds) {
 	return req_res() ? *(unsigned *)REQDAT : 0;
 }
 
-int sys_exec(const char *filename, char *argv[]) {
-	int i;
+int sys_execvp(const char *filename, char *argv[]) {
+	static int i;
 
 	req_put(REQ_EXEC);
 	req_put_string(filename);
@@ -83,7 +83,7 @@ int sys_exec(const char *filename, char *argv[]) {
 	return req_res() ? -1 : 0;
 }
 
-int sys_fstat(int fd, struct xv65_stat *buf) {
+int __fastcall__ sys_fstat(int fd, struct sys_stat *buf) {
 	req_put(REQ_FSTAT);
 	req_put(fd);
 	req_end();

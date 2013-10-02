@@ -15,11 +15,11 @@
 
 .segment	"CODE"
 
-; int __fastcall__ read(int fd, void* buf, unsigned int count)  [unistd.]
+; int __fastcall__ read(int fd, void* buf, unsigned int count)  [unistd.h]
 _read:
 	ldy	#REQ_READ
 	bne	j0
-; int __fastcall__ write(int fd, void* buf, unsigned int count)  [unistd.]
+; int __fastcall__ write(int fd, void* buf, unsigned int count)  [unistd.h]
 _write:
 	ldy	#REQ_WRITE
 j0:	sty	REQPUT

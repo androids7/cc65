@@ -50,6 +50,16 @@ pid_t getpid(void);
 
 int __fastcall__ xv65_mkdir(const char *filename);
 
+int execvp(const char *filename, char *argv[]);
+
+struct stat {
+	unsigned char type;
+	unsigned long size;
+	unsigned long size_hi;
+};
+
+int __fastcall__ fstat(int fd, struct stat *buf);
+
 #define xv65_req_put(x) (*(unsigned char*)REQPUT = (x))
 #define xv65_req_end() (*(unsigned char*)REQEND = 0)
 #define xv65_req_res() (*(unsigned char*)REQRES)

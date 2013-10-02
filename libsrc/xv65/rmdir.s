@@ -8,7 +8,7 @@
 
 .segment	"CODE"
 
-; int __fastcall__ rmdir(const char *filename)  [unistd]
+; int __fastcall__ rmdir(const char *filename)  [unistd.h]
 _rmdir:
 	ldy	#REQ_RMDIR
 	jmp	xv65_file1

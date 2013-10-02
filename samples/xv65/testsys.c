@@ -68,7 +68,7 @@ void test_exec() {
 		args[1] = "uname";
 		args[2] = "-a";
 		args[3] = 0;
-		sys_exec("/usr/bin/env", args);
+		sys_execvp("/usr/bin/env", args);
 	}
 }
 
@@ -91,7 +91,7 @@ void test_write() {
 }
 
 void test_fstat() {
-	static struct xv65_stat sb;
+	static struct stat sb;
 	int fd;
 
 	fd = open(TEST_FILE, XV65_O_RDONLY);
@@ -99,7 +99,7 @@ void test_fstat() {
 		printf("couldn't open " TEST_FILE " for reading\n");
 		return;
 	}
-	if (sys_fstat(fd, &sb) == 0)
+	if (fstat(fd, &sb) == 0)
 		printf(TEST_FILE " fstat: type: %d, size: %ld:%ld\n", sb.type, sb.size_hi, sb.size);
 	else
 		printf(TEST_FILE " fstat: failed\n");
@@ -136,7 +136,7 @@ void test_unlink() {
 
 void test_dirs() {
 	chdir("/tmp");
-	mkdir(TEST_DIR);
+	xv65_mkdir(TEST_DIR);
 	rmdir(TEST_DIR);
 }
 
@@ -154,7 +154,7 @@ void test_pipe() {
 		sys_dup(p[0]);
 		close(p[0]);
 		close(p[1]);
-		sys_exec("/usr/bin/wc", argv);
+		sys_execvp("/usr/bin/wc", argv);
 	} else {
 		write(p[1], "hello world\n", 12);
 		close(p[0]);
@@ -206,6 +206,13 @@ int main_with_args(int argc, char *argv[]) {
 		printf("%s\n", test_cases[i].id);
 	return 1;
 }
+
+#ifdef USE_SAMPLE_SYSCALLS
+#define req_put(x) (*(unsigned char*)REQPUT = (x))
+#define req_end() (*(unsigned char*)REQEND = 0)
+#define req_res() (*(unsigned char*)REQRES)
+void req_put_word(unsigned w) { req_put(w & 0xff); req_put(w >> 8); }
+#endif
 
 int main(void) {
 	int i, len, ret, argc;

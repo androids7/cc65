@@ -8,7 +8,7 @@
 
 .segment	"CODE"
 
-; int __fastcall__ chdir(const char *filename)  [unistd]
+; int __fastcall__ chdir(const char *filename)  [unistd.h]
 _chdir:
 	ldy	#REQ_CHDIR
 	jmp	xv65_file1

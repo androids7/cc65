@@ -7,9 +7,9 @@ data buffers and always reserve 8 bytes for each of them. The actual
 size used by xv65 (the amount you need to copy, check, etc... is
 available in PIDSIZE).
 */
-typedef long xv65_pid_t;
+typedef long sys_pid_t;
 
-struct xv65_stat {
+struct sys_stat {
 	unsigned char type;
 	unsigned long size;
 	unsigned long size_hi;
@@ -17,14 +17,14 @@ struct xv65_stat {
 
 typedef unsigned char byte;
 
-xv65_pid_t sys_fork(void);
+sys_pid_t sys_fork(void);
 int __fastcall__ sys_exit(int status);
-xv65_pid_t sys_wait(void);
-int __fastcall__ sys_kill(xv65_pid_t pid, byte sig);
-xv65_pid_t sys_getpid(void);
+sys_pid_t sys_wait(void);
+int __fastcall__ sys_kill(sys_pid_t pid, byte sig);
+sys_pid_t sys_getpid(void);
 unsigned __fastcall__ sys_sleep(unsigned seconds);
-int sys_exec(const char *filename, char *argv[]);
-int sys_fstat(int fd, struct xv65_stat *buf);
+int sys_execvp(const char *filename, char *argv[]);
+int __fastcall__ sys_fstat(int fd, struct sys_stat *buf);
 int sys_open(const char *filename, int flags, ...);
 int __fastcall__ sys_read(int fd, void *buf, int n);
 int __fastcall__ sys_write(int fd, void *buf, int n);
@@ -42,12 +42,16 @@ int __fastcall__ sys_rmdir(const char *filename);
 
 #include <_xv65.h>
 
+#define stat sys_stat
+
 #define fork sys_fork
 #define _exit sys_exit
 #define wait sys_wait
 #define kill sys_kill
 #define getpid sys_getpid
 #define sleep sys_sleep
+#define execvp sys_execvp
+#define fstat sys_fstat
 #define open sys_open
 #define read sys_read
 #define write sys_write
