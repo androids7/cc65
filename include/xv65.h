@@ -74,6 +74,11 @@ int __fastcall__ xv65_env(const char *name, char *buf, unsigned int *size);
 void __fastcall__ xv65_req_put_word(unsigned int value);
 void __fastcall__ xv65_req_put_string(const char *s);
 
+/* xv65_put_*: A, X and Y are left unchanged */
+void __fastcall__ xv65_put_string(const char *s); /* uses ptr4 */
+void xv65_put_ax(void);
+void xv65_put_c_runtime(void); /* uses ptr4 */
+
 #ifndef XV65_NO_REQ_ALIASES
 
 #define req_put(x) xv65_req_put(x)

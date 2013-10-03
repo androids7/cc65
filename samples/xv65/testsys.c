@@ -216,13 +216,13 @@ void main_with_args(int argc, char *argv[]) {
 			exit(0);
 		}
 	}
-	printf("%s: unknown test case, select one from:\n", argv[0]);
+	printf("%s: unknown test case %s, select one from:\n", argv[0], argv[1]);
 	for (i = 0; i < N_OF_TEST_CASES; i++)
 		printf("%s\n", test_cases[i].id);
 	exit(1);
 }
 
-#if 1
+#if 0
 int main(void) {
 	int argc;
 	char **argv;
