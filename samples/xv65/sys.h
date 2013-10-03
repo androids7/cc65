@@ -38,6 +38,10 @@ int __fastcall__ sys_unlink(const char *filename);
 unsigned long __fastcall__ sys_time(unsigned long *t);
 int __fastcall__ sys_rmdir(const char *filename);
 
+unsigned int sys_argc(void);
+int __fastcall__ sys_argv(unsigned int i, char *buf, unsigned int *size);
+int __fastcall__ sys_env(const char *name, char *buf, unsigned int *size);
+
 #ifdef USE_SAMPLE_SYSCALLS
 
 #include <_xv65.h>

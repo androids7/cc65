@@ -169,6 +169,17 @@ void test_time() {
 	printf("time: %ld, %ld, %ld\n", t0, t1, t2);
 }
 
+void test_env() {
+	static char buf[100];
+	unsigned int size = sizeof(buf);
+	if (sys_env("HOME", buf, &size))
+		printf("HOME: not found\n", size);
+	else if (size <= sizeof(buf))
+		printf("HOME: %s\n", buf);
+	else
+		printf("HOME: buffer too small (%d<%d)\n", sizeof(buf), size);
+}
+
 struct test {
 	void (*f)(void);
 	const char *id;
@@ -186,6 +197,7 @@ struct test test_cases[] = {
 	{ test_dirs, "dirs" },
 	{ test_pipe, "pipe" },
 	{ test_time, "time" },
+	{ test_env, "env" },
 };
 
 #define N_OF_TEST_CASES (sizeof(test_cases) / sizeof(struct test))
@@ -216,28 +228,19 @@ void req_put_word(unsigned w) { req_put(w & 0xff); req_put(w >> 8); }
 #endif
 
 int main(void) {
-	int i, len, ret, argc;
+	int i, ret, argc;
+	unsigned int size;
 	char **argv;
 
 	*(char*)TRCLEVEL = 1;
 	//*(char*)ERREXIT = 1;
-	req_put(REQ_ARGC);
-	req_end();
-	argc = *(int *)REQDAT;
+	argc = sys_argc();
 	argv = (char **)malloc(sizeof(char *) * (argc + 1));
 	for (i = 0; i < argc; i++) {
-		req_put(REQ_ARGV);
-		req_put_word(0); // addr - don't care
-		req_put_word(0); // len - not enough; will get right size
-		req_put_word(i);
-		req_end();
-		len = *(int *)REQDAT;
-		argv[i] = (char *)malloc(len);
-		req_put(REQ_ARGV);
-		req_put_word((unsigned)argv[i]);
-		req_put_word(len);
-		req_put_word(i);
-		req_end();
+		size = 0;
+		sys_argv(i, (char *)0, &size);
+		argv[i] = (char *)malloc(size);
+		sys_argv(i, argv[i], &size);
 	}
 	argv[i] = 0;
 	ret = main_with_args(argc, argv);

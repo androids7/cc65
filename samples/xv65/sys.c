@@ -180,3 +180,29 @@ unsigned long __fastcall__ sys_time(unsigned long *t) {
 		*t = *(unsigned long *)REQDAT;
 	return *(unsigned long *)REQDAT;
 }
+
+unsigned int sys_argc(void) {
+	req_put(REQ_ARGC);
+	req_end();
+	return *(unsigned int *)REQDAT;
+}
+
+int __fastcall__ sys_argv(unsigned int i, char *buf, unsigned int *size) {
+	req_put(REQ_ARGV);
+	req_put_word((unsigned int)buf);
+	req_put_word(*size);
+	req_put_word(i);
+	req_end();
+	*size = *(unsigned int *)REQDAT;
+	return req_res() ? -1 : 0;
+}
+
+int __fastcall__ sys_env(const char *name, char *buf, unsigned int *size) {
+	req_put(REQ_ENV);
+	req_put_word((unsigned int)buf);
+	req_put_word(*size);
+	req_put_string(name);
+	req_end();
+	*size = *(unsigned int *)REQDAT;
+	return req_res() ? -1 : 0;
+}
