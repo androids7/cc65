@@ -67,6 +67,9 @@ int __fastcall__ sys_env(const char *name, char *buf, unsigned int *size);
 #define unlink sys_unlink
 #define time sys_time
 #define rmdir sys_rmdir
+#define xv65_argc sys_argc
+#define xv65_argv sys_argv
+#define xv65_env sys_env
 
 #else
 

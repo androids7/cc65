@@ -170,14 +170,16 @@ void test_time() {
 }
 
 void test_env() {
-	static char buf[100];
+	static char buf[10];
 	unsigned int size = sizeof(buf);
-	if (sys_env("HOME", buf, &size))
-		printf("HOME: not found\n", size);
+	if (xv65_env("VAR1", buf, &size))
+		printf("VAR1: error\n");
+	else if (size == 0)
+		printf("VAR1: not found\n");
 	else if (size <= sizeof(buf))
-		printf("HOME: %s\n", buf);
+		printf("VAR1: %s\n", buf);
 	else
-		printf("HOME: buffer too small (%d<%d)\n", sizeof(buf), size);
+		printf("VAR1: buffer too small (%d<%d)\n", sizeof(buf), size);
 }
 
 struct test {
@@ -202,48 +204,44 @@ struct test test_cases[] = {
 
 #define N_OF_TEST_CASES (sizeof(test_cases) / sizeof(struct test))
 
-int main_with_args(int argc, char *argv[]) {
+void main_with_args(int argc, char *argv[]) {
 	int i = 0;
 	if (argc != 2) {
 		printf("usage: %s test_case\n", argv[0]);
-		return 1;
+		exit(1);
 	}
 	for (i = 0; i < N_OF_TEST_CASES; i++) {
 		if (!strcmp(argv[1], test_cases[i].id)) {
 			test_cases[i].f();
-			return 0;
+			exit(0);
 		}
 	}
 	printf("%s: unknown test case, select one from:\n", argv[0]);
 	for (i = 0; i < N_OF_TEST_CASES; i++)
 		printf("%s\n", test_cases[i].id);
-	return 1;
+	exit(1);
 }
 
-#ifdef USE_SAMPLE_SYSCALLS
-#define req_put(x) (*(unsigned char*)REQPUT = (x))
-#define req_end() (*(unsigned char*)REQEND = 0)
-#define req_res() (*(unsigned char*)REQRES)
-void req_put_word(unsigned w) { req_put(w & 0xff); req_put(w >> 8); }
-#endif
-
+#if 1
 int main(void) {
-	int i, ret, argc;
-	unsigned int size;
+	int argc;
 	char **argv;
+	unsigned int i, size;
 
-	*(char*)TRCLEVEL = 1;
-	//*(char*)ERREXIT = 1;
-	argc = sys_argc();
+	argc = xv65_argc();
 	argv = (char **)malloc(sizeof(char *) * (argc + 1));
 	for (i = 0; i < argc; i++) {
 		size = 0;
-		sys_argv(i, (char *)0, &size);
+		xv65_argv(i, (char *)0, &size);
 		argv[i] = (char *)malloc(size);
-		sys_argv(i, argv[i], &size);
+		xv65_argv(i, argv[i], &size);
 	}
 	argv[i] = 0;
-	ret = main_with_args(argc, argv);
-	_exit(ret);
+#else
+int main(int argc, char *argv[]) {
+#endif
+	*(char*)TRCLEVEL = 1;
+	//*(char*)ERREXIT = 1;
+	main_with_args(argc, argv);
 	return 0;
 }
