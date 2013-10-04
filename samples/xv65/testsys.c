@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 //#define USE_SAMPLE_SYSCALLS
 #include "sys.h"
@@ -182,6 +183,14 @@ void test_env() {
 		printf("VAR1: buffer too small (%d<%d)\n", sizeof(buf), size);
 }
 
+void test_errno() {
+	*(char*)TRCLEVEL = 0;
+	if (unlink("/tmp/jbit_non_existent_file") == -1)
+		printf("unlink errno is %d (expecting %d)\n", errno, ENOENT);
+	if (open("/etc/shadow", O_RDONLY) == -1)
+		printf("open errno is %d (expecting %d, not %d)\n", errno, EACCES, XV65_EACCES);
+}
+
 struct test {
 	void (*f)(void);
 	const char *id;
@@ -200,6 +209,7 @@ struct test test_cases[] = {
 	{ test_pipe, "pipe" },
 	{ test_time, "time" },
 	{ test_env, "env" },
+	{ test_errno, "errno" },
 };
 
 #define N_OF_TEST_CASES (sizeof(test_cases) / sizeof(struct test))

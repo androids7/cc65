@@ -3,8 +3,8 @@
 
 	.export		_fork
 	.export		_wait
-	.import		xv65_ret_res_error
 	.import		xv65_ret_pid
+	.import		__mappederrno
 	.importzp	sreg
 
 	.include	"xv65.inc"
@@ -25,5 +25,5 @@ j0:	sta	REQPUT
 	ldx	#$ff
 	stx	sreg
 	stx	sreg+1
-	jmp	xv65_ret_res_error
+	jmp	__mappederrno
 @r0:	jmp	xv65_ret_pid

@@ -2,8 +2,7 @@
 ; Written by Emanuele Fornara
 
 	.export		_pipe
-	.import		xv65_ret_res_error
-	.import		xv65_ret_res_ok
+	.import		__mappederrno
 	.importzp	ptr1
 
 	.include	"xv65.inc"
@@ -19,7 +18,7 @@ _pipe:
 	sta	REQEND
 	lda	REQRES
 	beq	@r0
-	jmp	xv65_ret_res_error
+	jmp	__mappederrno
 @r0:	ldy	#0
 	lda	REQDAT
 	sta	(ptr1),y
@@ -32,4 +31,4 @@ _pipe:
 	iny
 	lda	#0
 	sta	(ptr1),y
-	jmp	xv65_ret_res_ok
+	jmp	__mappederrno
