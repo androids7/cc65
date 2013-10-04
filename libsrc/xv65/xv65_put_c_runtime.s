@@ -65,7 +65,7 @@ _xv65_put_c_runtime:
 	restoreax
 	rts
 
-.segment	"DATA"
+.segment	"RODATA"
 
 header_msg: .byte "*** C RunTime ***", 10, "ax ", 0
 sreg_msg: .byte "  sreg ", 0
