@@ -14,6 +14,7 @@
 .ifdef __ATARIXL__
 
         .export         sramprep
+
         .import         __SRPREP_LOAD__, __SRPREPCHNK_LAST__
         .import         __SHADOW_RAM_LOAD__, __SHADOW_RAM_SIZE__, __SHADOW_RAM_RUN__
         .import         __SHADOW_RAM2_LOAD__, __SHADOW_RAM2_SIZE__, __SHADOW_RAM2_RUN__
@@ -54,6 +55,8 @@ cont:   ldx     #0              ; channel 0
 ; Actual code
 
 .segment        "SRPREP"
+
+; ***** entry point *****
 
 sramprep:
 .ifdef DEBUG
@@ -115,7 +118,7 @@ sramprep:
 iocbok:
 .endif
 
-        ; Reopen it in Graphics 0
+        ; reopen it in Graphics 0
         lda     #OPEN
         sta     ICCOM,x
         lda     #OPNIN | OPNOT
@@ -212,8 +215,8 @@ cg_addr_ok2:
 
 ; switch to temporary chargen
 
-        sta CHBASE
-        sta CHBAS
+        sta     CHBASE
+        sta     CHBAS
 
 ; copy shadow RAM contents to their destination (segment SHADOW_RAM)
 
@@ -245,7 +248,7 @@ no_copy:
         lda     #<__SHADOW_RAM2_SIZE__
         bne     do_copy2
         lda     #>__SHADOW_RAM2_SIZE__
-        beq     no_copy2                ; we have no shadow RAM contents
+        beq     no_copy2                ; we have no shadow RAM #2 contents
 
         ; ptr1 - src; ptr2 - dest; tmp1, tmp2 - len
 do_copy2:

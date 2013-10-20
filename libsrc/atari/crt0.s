@@ -8,12 +8,11 @@
 ;       Stefan Haubenthal
 ;
 
-        .export         _exit
         .export         __STARTUP__ : absolute = 1      ; Mark as startup
+        .export         _exit, start
 
         .import         initlib, donelib
         .import         callmain, zerobss
-        .import         __STARTUP_LOAD__, __BSS_LOAD__
         .import         __RESERVED_MEMORY__
         .import         __RAM_START__, __RAM_SIZE__
 .ifdef __ATARIXL__
@@ -21,6 +20,7 @@
         .import         sram_init
         .import         scrdev
         .import         findfreeiocb
+        .forceimport    sramprep                        ; force inclusion of the "shadow RAM preparation" load chunk
         .include        "save_area.inc"
 .endif
 
@@ -28,19 +28,6 @@
         .include        "atari.inc"
 
 ; ------------------------------------------------------------------------
-; EXE header
-
-.segment        "EXEHDR"
-
-        .word   $FFFF
-
-.segment        "MAINHDR"
-
-        .word   __STARTUP_LOAD__
-        .word   __BSS_LOAD__ - 1
-
-; ------------------------------------------------------------------------
-; Actual code
 
 .segment        "STARTUP"
 
@@ -212,9 +199,3 @@ LMARGN_save:    .res    1
 .ifndef __ATARIXL__
 APPMHI_save:    .res    2
 .endif
-
-
-.segment "AUTOSTRT"
-        .word   RUNAD                   ; defined in atari.inc
-        .word   RUNAD+1
-        .word   start
