@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <fcntl.h>
 
 //#define USE_SAMPLE_SYSCALLS
 #include "sys.h"
@@ -75,19 +76,19 @@ void test_exec() {
 
 #define TEST_FILE "/tmp/cc65_xv65_test.dat"
 #define TEST_DIR "/tmp/cc65_xv65_test_dir"
+static char msg[] = "File created by xv65\n";
+#define msg_len (sizeof(msg) - 1)
 
 void test_write() {
-	static const char *msg = "File created by xv65\n";
-	int fd, n, len;
+	int fd, n;
 
-	fd = open(TEST_FILE, XV65_O_WRONLY|XV65_O_CREAT);
+	fd = open(TEST_FILE, O_WRONLY|O_CREAT);
 	if (fd == -1) {
 		printf("couldn't open " TEST_FILE " for writing\n");
 		return;
 	}
-	len = strlen(msg);
-	n = write(fd, msg, len);
-	printf("write returned %d (expected %d)\n", n, len);
+	n = write(fd, msg, msg_len);
+	printf("write returned %d (expected %d)\n", n, msg_len);
 	close(fd);
 }
 
@@ -95,7 +96,7 @@ void test_fstat() {
 	static struct stat sb;
 	int fd;
 
-	fd = open(TEST_FILE, XV65_O_RDONLY);
+	fd = open(TEST_FILE, O_RDONLY);
 	if (fd == -1) {
 		printf("couldn't open " TEST_FILE " for reading\n");
 		return;
@@ -107,6 +108,24 @@ void test_fstat() {
 	close(fd);
 }
 
+void test_lseek() {
+	int fd;
+	long offset;
+
+	fd = open(TEST_FILE, O_RDONLY);
+	if (fd == -1) {
+		printf("couldn't open " TEST_FILE " for reading\n");
+		return;
+	}
+	offset = lseek(fd, 0, SEEK_END);
+	printf("lseek returned %ld (expected %d)\n", offset, msg_len);
+	offset = lseek(fd, 5, SEEK_SET);
+	printf("lseek returned %ld (expected %d)\n", offset, 5);
+	offset = lseek(fd, -2, SEEK_CUR);
+	printf("lseek returned %ld (expected %d)\n", offset, 3);
+	close(fd);
+}
+
 void test_read() {
 	char *buf;
 	int fd, i, n, len = 1024;
@@ -115,7 +134,7 @@ void test_read() {
 		printf("couldn't allocate buf (%d bytes)\n", len);
 		return;
 	}
-	fd = open(TEST_FILE, XV65_O_RDONLY);
+	fd = open(TEST_FILE, O_RDONLY);
 	if (fd == -1) {
 		printf("couldn't open " TEST_FILE " for reading\n");
 		free(buf);
@@ -203,6 +222,7 @@ struct test test_cases[] = {
 	{ test_exec, "exec" },
 	{ test_write, "write" },
 	{ test_fstat, "fstat" },
+	{ test_lseek, "lseek" },
 	{ test_read, "read" },
 	{ test_unlink, "unlink" },
 	{ test_dirs, "dirs" },

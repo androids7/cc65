@@ -181,6 +181,31 @@ unsigned long __fastcall__ sys_time(unsigned long *t) {
 	return *(unsigned long *)REQDAT;
 }
 
+long __fastcall__ sys_lseek(int fd, long offset, int whence) {
+	int w;
+	switch (whence) {
+	case SEEK_SET:
+		w = XV65_SEEK_SET;
+		break;
+	case SEEK_CUR:
+		w = XV65_SEEK_CUR;
+		break;
+	case SEEK_END:
+		w = XV65_SEEK_END;
+		break;
+	default:
+		return -1;
+	}
+	req_put(REQ_LSEEK);
+	req_put(fd);
+	req_put(w);
+	req_put_word((unsigned)offset);
+	req_end();
+	if (req_res())
+		return -1;
+	return *(long *)REQDAT;
+}
+
 unsigned int sys_argc(void) {
 	req_put(REQ_ARGC);
 	req_end();

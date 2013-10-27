@@ -3,7 +3,7 @@
 
 	.export		_fork
 	.export		_wait
-	.import		xv65_ret_pid
+	.import		xv65_ret_long
 	.import		__mappederrno
 	.importzp	sreg
 
@@ -26,4 +26,4 @@ j0:	sta	REQPUT
 	stx	sreg
 	stx	sreg+1
 	jmp	__mappederrno
-@r0:	jmp	xv65_ret_pid
+@r0:	jmp	xv65_ret_long

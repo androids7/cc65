@@ -37,6 +37,7 @@ int __fastcall__ sys_unlink(const char *filename);
 
 unsigned long __fastcall__ sys_time(unsigned long *t);
 int __fastcall__ sys_rmdir(const char *filename);
+long __fastcall__ sys_lseek(int fd, long offset, int whence);
 
 unsigned int sys_argc(void);
 int __fastcall__ sys_argv(unsigned int i, char *buf, unsigned int *size);
@@ -67,6 +68,7 @@ int __fastcall__ sys_env(const char *name, char *buf, unsigned int *size);
 #define unlink sys_unlink
 #define time sys_time
 #define rmdir sys_rmdir
+#define lseek sys_lseek
 #define xv65_argc sys_argc
 #define xv65_argv sys_argv
 #define xv65_env sys_env

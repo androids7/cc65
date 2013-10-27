@@ -2,7 +2,7 @@
 ; Written by Emanuele Fornara
 
 	.export		_getpid
-	.import		xv65_ret_pid
+	.import		xv65_ret_long
 
 	.include	"xv65.inc"
 
@@ -13,4 +13,4 @@ _getpid:
 	lda	#REQ_GETPID
 	sta	REQPUT
 	sta	REQEND
-	jmp	xv65_ret_pid
+	jmp	xv65_ret_long
