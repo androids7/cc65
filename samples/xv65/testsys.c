@@ -3,11 +3,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <errno.h>
+#include <unistd.h>
 #include <fcntl.h>
+#include <xv65.h>
 
 //#define USE_SAMPLE_SYSCALLS
+
+#ifdef USE_SAMPLE_SYSCALLS
 #include "sys.h"
+#endif
 
 void test_exit() {
 	_exit(0);
