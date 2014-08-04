@@ -10,3 +10,7 @@
 /targetutil/
 /tgi/
 /wrk/
+.c9
+*.o
+*.jb
+*.prg

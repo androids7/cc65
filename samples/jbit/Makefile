@@ -14,7 +14,7 @@ HDR=../../libsrc/jbit/header
 	$(CL) -t jbit -o $@ $(HDR).s $<
 
 %.prg: %.c
-	$(CL) -O2 -o $@ $< c64jb.c
+	$(CL) -t c64 -O2 -o $@ $< c64jb.c
 
 .PHONY:	all
 all: \
