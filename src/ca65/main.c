@@ -311,6 +311,10 @@ static void SetSys (const char* Sys)
             NewSymbol ("__XV65__", 1);
             break;
 
+        case TGT_PRIMO:
+            NewSymbol ("__PRIMO__", 1);
+            break;
+
         default:
             AbEnd ("Invalid target name: `%s'", Sys);
 

@@ -1,5 +1,5 @@
 #
-# Makefile for cc65 samples (jbit)
+# Makefile for cc65 samples (xv65)
 #
 # This Makefile requires GNU make
 #
