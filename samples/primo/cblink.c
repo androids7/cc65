@@ -1,8 +1,28 @@
 // cblink
 
-#include <_primo.h>
+#ifdef __PRIMO__
+#define ARDUINO_MAIN
+#define USE_SAMPLE_SYSCALLS
+#include "sys.h"
+#endif
 
-int main(void) {
-	// TODO
-	return 0;
+#define led 13
+
+// TODO
+void delay(int n) {
+	int i;
+
+	for (i = 0; i < n; i++)
+		;
+}
+
+void setup() {
+	pinMode(led, OUTPUT);
+}
+
+void loop() {
+	digitalWrite(led, HIGH);
+	delay(1000);
+	digitalWrite(led, LOW);
+	delay(1000);
 }

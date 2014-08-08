@@ -8,7 +8,7 @@ CL=../../bin/cl65
 HDR=../../libsrc/primo/header
 
 %.jb: %.c
-	$(CL) -t primo -O2 -o $@ $<
+	$(CL) -t primo -O2 -o $@ $< sys.c
 
 %.jb: %.s
 	$(CL) -t primo -o $@ $(HDR).s $<

@@ -33,4 +33,22 @@
 
 #include <_primo.h>
 
+#define INPUT DIGWCFG_INPUT
+#define OUTPUT DIGWCFG_OUTPUT
+#define INPUT_PULLUP DIGWCFG_INPULLUP
+
+#define HIGH DIGVAL_HIGH
+#define LOW DIGVAL_LOW
+
+#ifdef ARDUINO_MAIN
+void setup(void);
+void loop(void);
+void main(void) {
+	setup();
+	while (1) {
+		loop();
+	}
+}
+#endif
+
 #endif
