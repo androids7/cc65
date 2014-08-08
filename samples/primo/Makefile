@@ -15,6 +15,7 @@ HDR=../../libsrc/primo/header
 
 .PHONY:	all
 all: \
+	vm.jb \
 	cblink.jb
 
 .PHONY:	clean
