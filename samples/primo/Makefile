@@ -6,9 +6,13 @@
 
 CL=../../bin/cl65
 HDR=../../libsrc/primo/header
+ROM=
+
+# comment out to avoid using rom
+ROM += ../rom/prmcrt.o
 
 %.jb: %.c
-	$(CL) -t primo -O2 -o $@ $<
+	$(CL) -t primo -O2 -o $@ $< $(ROM)
 
 %.jb: %.s
 	$(CL) -t primo -o $@ $(HDR).s $<
@@ -19,14 +23,8 @@ HDR=../../libsrc/primo/header
 .PHONY:	all
 all: \
 	vm.jb \
-	cblink.jb \
-	prmcrt.rom
-
-prmcrt.rom:
-	$(CL) -t primo -C prmcrt.cfg -Ln prmcrt.map -O2 -o prmcrt.rom import.s
-	$(CL) -t primo -c export.s
-	$(CL) -t primo -O2 -o testcrt.jb cblink.c export.o
+	cblink.jb
 
 .PHONY:	clean
 clean:
-	$(RM) *~ $(HDR).o *.o *.jb *.rom *.map
+	$(RM) *~ $(HDR).o *.o *.jb

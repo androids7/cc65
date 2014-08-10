@@ -1,0 +1,14 @@
+# +include (+descendant) -exclude
+
+include:
+	_pinMode
+	_digitalWrite
+	_digitalRead
+	_analogRead
+	_analogWrite
+	_delay
+	_millis
+	_itoa
+	_utoa
+
+exclude:
