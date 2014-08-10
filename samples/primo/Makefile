@@ -13,11 +13,20 @@ HDR=../../libsrc/primo/header
 %.jb: %.s
 	$(CL) -t primo -o $@ $(HDR).s $<
 
+%.txt: %.jb
+	od -A d -t u1 $<
+
 .PHONY:	all
 all: \
 	vm.jb \
-	cblink.jb
+	cblink.jb \
+	prmcrt.rom
+
+prmcrt.rom:
+	$(CL) -t primo -C prmcrt.cfg -Ln prmcrt.map -O2 -o prmcrt.rom import.s
+	$(CL) -t primo -c export.s
+	$(CL) -t primo -O2 -o testcrt.jb cblink.c export.o
 
 .PHONY:	clean
 clean:
-	$(RM) *~ $(HDR).o *.o *.jb
+	$(RM) *~ $(HDR).o *.o *.jb *.rom *.map
