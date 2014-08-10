@@ -8,14 +8,6 @@
 
 #define led 13
 
-// TODO
-void delay(int n) {
-	int i;
-
-	for (i = 0; i < n; i++)
-		;
-}
-
 void setup() {
 	pinMode(led, OUTPUT);
 }
