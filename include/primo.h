@@ -43,6 +43,14 @@
 #define HIGH DIGVAL_HIGH
 #define LOW DIGVAL_LOW
 
+void __fastcall__ pinMode(uint8_t pin, uint8_t mode);
+void __fastcall__ digitalWrite(uint8_t pin, uint8_t value);
+int __fastcall__ digitalRead(uint8_t pin);
+int __fastcall__ analogRead(uint8_t pin);
+void __fastcall__ analogWrite(uint8_t pin, uint8_t value);
+void __fastcall__ delay(uint16_t pin);
+uint32_t millis();
+
 #ifdef ARDUINO_MAIN
 void setup(void);
 void loop(void);

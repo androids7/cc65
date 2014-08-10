@@ -2,6 +2,8 @@
 
 #include <stdint.h>
 
+#include <primo.h>
+
 void __fastcall__ sys_pinMode(uint8_t pin, uint8_t mode);
 void __fastcall__ sys_digitalWrite(uint8_t pin, uint8_t value);
 int __fastcall__ sys_digitalRead(uint8_t pin);
@@ -11,8 +13,6 @@ void __fastcall__ sys_delay(uint16_t pin);
 uint32_t sys_millis();
 
 #ifdef USE_SAMPLE_SYSCALLS
-
-#include <primo.h>
 
 #define pinMode sys_pinMode
 #define digitalWrite sys_digitalWrite
@@ -24,7 +24,4 @@ uint32_t sys_millis();
 
 #else
 
-#include <primo.h>
-
 #endif
-

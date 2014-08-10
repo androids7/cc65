@@ -2,8 +2,7 @@
 
 #ifdef __PRIMO__
 #define ARDUINO_MAIN
-#define USE_SAMPLE_SYSCALLS
-#include "sys.h"
+#include <primo.h>
 #endif
 
 #define led 13
