@@ -12,3 +12,6 @@ include:
 	_utoa
 
 exclude:
+	initlib
+	donelib
+	callmain

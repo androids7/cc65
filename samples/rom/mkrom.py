@@ -40,11 +40,11 @@ def read_symbols(filename):
 	f.close()
 
 def dump_import():
-	print('\t.export _driver')
+	print('\t.export _tstsyms')
 	for i in include:
 		print('\t.import ' + i)
-	print('\t.segment "DRVCODE"')
-	print('_driver:')
+	print('\t.segment "TSTCODE"')
+	print('_tstsyms:')
 	for i in include:
 		print('\t.word ' + i)
 
