@@ -1,6 +1,6 @@
 // cblink
 
-#ifdef __PRIMO__
+#ifndef ARDUINO
 #define ARDUINO_MAIN
 #include <primo.h>
 #endif

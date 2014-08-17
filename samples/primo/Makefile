@@ -23,6 +23,7 @@ ROM += ../rom/prmcrt.o
 .PHONY:	all
 all: \
 	vm.jb \
+	keypad.jb \
 	cblink.jb
 
 .PHONY:	clean

@@ -11,6 +11,7 @@
 /tgi/
 /wrk/
 .c9
+*.swp
 *.o
 *.jb
 *.prg
