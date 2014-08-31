@@ -10,6 +10,7 @@ struct s1_t {
 extern void *tstsyms;
 struct s1_t *s1 = (struct s1_t *)100;
 int a, b, c;
+char d;
 
 int f(char *s, int a, char b) {
 	s[0] = b;
@@ -22,11 +23,19 @@ void main(void) {
 	a = 5;
 	b = 6;
 	c = 7000;
+	d = 1;
 	for (i = 1; i < 300; i++) {
 		a += f("", b, 1);
 		b *= i;
 		b -= i;
 		c /= i; 
+		c &= ~i;
+		c |= i;
+		c <<= 1;
+		c <<= d;
+		d++;
+		c >>= d;
+		c >>= 2;
 		s1[i].a = a;
 		s1[i].c = (char)c;
 	}

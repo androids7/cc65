@@ -12,7 +12,7 @@ ROM=
 ROM += ../rom/prmcrt.o
 
 %.jb: %.c
-	$(CL) -t primo -O2 -o $@ $< $(ROM)
+	$(CL) -t primo -O2 -Ln $*.map -o $@ $< $(ROM)
 
 %.jb: %.s
 	$(CL) -t primo -o $@ $(HDR).s $<
@@ -28,4 +28,4 @@ all: \
 
 .PHONY:	clean
 clean:
-	$(RM) *~ $(HDR).o *.o *.jb
+	$(RM) *~ $(HDR).o *.o *.jb *.map

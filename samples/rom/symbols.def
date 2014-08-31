@@ -10,6 +10,12 @@ include:
 	_millis
 	_itoa
 	_utoa
+	decsp1
+	decsp2
+	decsp3
+	incsp1
+	incsp2
+	incsp3
 
 exclude:
 	initlib
