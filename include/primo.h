@@ -43,6 +43,9 @@
 #define HIGH DIGVAL_HIGH
 #define LOW DIGVAL_LOW
 
+#define LSBFIRST SHIFT_LSBFIRST
+#define MSBFIRST SHIFT_MSBFIRST
+
 void __fastcall__ pinMode(uint8_t pin, uint8_t mode);
 void __fastcall__ digitalWrite(uint8_t pin, uint8_t value);
 int __fastcall__ digitalRead(uint8_t pin);
@@ -50,6 +53,8 @@ int __fastcall__ analogRead(uint8_t pin);
 void __fastcall__ analogWrite(uint8_t pin, uint8_t value);
 void __fastcall__ delay(uint16_t pin);
 uint32_t millis();
+uint8_t __fastcall__ sys_shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder);
+void __fastcall__ sys_shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t value);
 
 #ifdef ARDUINO_MAIN
 void setup(void);

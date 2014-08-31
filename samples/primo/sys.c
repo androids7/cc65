@@ -46,3 +46,21 @@ uint32_t sys_millis() {
 	*(uint8_t *)REQEND = 0;
 	return *(uint32_t *)REQDAT;
 }
+
+uint8_t __fastcall__ sys_shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder) {
+	*(uint8_t *)REQPUT = REQ_SHIFTIN;
+	*(uint8_t *)REQPUT = dataPin;
+	*(uint8_t *)REQPUT = clockPin;
+	*(uint8_t *)REQPUT = bitOrder;
+	*(uint8_t *)REQEND = 0;
+	return *(uint8_t *)REQDAT;
+}
+
+void __fastcall__ sys_shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t value) {
+	*(uint8_t *)REQPUT = REQ_SHIFTOUT;
+	*(uint8_t *)REQPUT = dataPin;
+	*(uint8_t *)REQPUT = clockPin;
+	*(uint8_t *)REQPUT = bitOrder;
+	*(uint8_t *)REQPUT = value;
+	*(uint8_t *)REQEND = 0;
+}

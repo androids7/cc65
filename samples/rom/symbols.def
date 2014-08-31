@@ -8,6 +8,8 @@ include:
 	_analogWrite
 	_delay
 	_millis
+	_shiftIn
+	_shiftOut
 	_itoa
 	_utoa
 	decsp1
