@@ -111,6 +111,6 @@ do_call:
 	lda (tmp1),y
 	sta tmp1+1
 	dey
-	lda #75 ; JMP opcode
+	lda #76 ; JMP opcode
 	sta tmp1
 	jmp tmp1 ; jsr+rts
