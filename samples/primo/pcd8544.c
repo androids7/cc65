@@ -5,6 +5,8 @@
 #ifndef ARDUINO
 #define ARDUINO_MAIN
 #include <primo.h>
+#else
+#define __fastcall__
 #endif
 
 #define PIN_RESET 2
@@ -56,7 +58,7 @@ void lcd_init() {
 	pinMode(PIN_SDIN, OUTPUT);
 	pinMode(PIN_SCLK, OUTPUT);
 	digitalWrite(PIN_RESET, LOW);
-	delay(2);
+	delay(1);
 	digitalWrite(PIN_RESET, HIGH);
 	lcd_write(LCD_C, 0x21);  // LCD Extended Commands.
 	lcd_write(LCD_C, 0xB1);  // Set LCD Vop (Contrast). 
@@ -75,6 +77,7 @@ void show_msg(char col) {
 	lcd_write(LCD_C, 0x40 | 2);
 	for (i = 0; i < sizeof(msg); i++)
 		lcd_write(LCD_D, msg[i]);
+	delay(20);
 }
 
 void setup() {
