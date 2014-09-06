@@ -5,7 +5,7 @@
 Prototyped on primo and tested on the Arduino IDE. To run on Arduino, create an
 empty sketch and copy and paste this file as it is.
 
-Needs a 3x4 matrix keypad (see defines below see/change the pinout)
+Requires a 3x4 matrix keypad (see defines below to view/change the pinout)
 
  COL0  COL1  COL2 |
  -----------------+--------
@@ -34,14 +34,14 @@ char *buf = (char *)BUF_PTR;
 
 #endif
 
-#define PIN_ROW0_IN 2
-#define PIN_ROW1_IN 3
-#define PIN_ROW2_IN 4
-#define PIN_ROW3_IN 5
+#define PIN_ROW0_IN 7
+#define PIN_ROW1_IN 8
+#define PIN_ROW2_IN 9
+#define PIN_ROW3_IN 10
 
-#define PIN_COL0_OUT 6
-#define PIN_COL1_OUT 7
-#define PIN_COL2_OUT 8
+#define PIN_COL0_OUT 17 // A3
+#define PIN_COL1_OUT 16 // A2
+#define PIN_COL2_OUT 15 // A1
 
 const char *keys = "123456789*0#";
 

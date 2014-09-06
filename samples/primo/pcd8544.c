@@ -1,6 +1,18 @@
 // pcd8544
 
-// based on http://playground.arduino.cc/Code/PCD8544
+/*
+
+Prototyped on primo and tested on the Arduino IDE. To run on Arduino, create an
+empty sketch and copy and paste this file as it is.
+
+Requires a PCD8544 (see defines below to view/change the pinout)
+
+IMPORTANT!!!
+You need to adapt the logic levels of the circuit: Arduino (5V) -> LCD (3.3V).
+
+Based on http://playground.arduino.cc/Code/PCD8544
+
+*/
 
 #ifndef ARDUINO
 #define ARDUINO_MAIN
