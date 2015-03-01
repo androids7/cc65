@@ -1,8 +1,8 @@
-[documentation](http://cc65.github.io/cc65/doc)
+[documentation](http://cc65.github.io/doc)
 
-[wiki](https://github.com/cc65/wiki/wiki)
+[wiki](http://github.com/cc65/wiki/wiki)
 
-[![build status](https://travis-ci.org/cc65/cc65.png)](https://travis-ci.org/cc65/cc65/builds)
+[![build status](http://travis-ci.org/cc65/cc65.png)](http://travis-ci.org/cc65/cc65/builds)
 
 cc65 is a complete cross development package for 65(C)02 systems, including
 a powerful macro assembler, a C compiler, linker, librarian and several
@@ -27,6 +27,7 @@ including
 - the Supervision console.
 - the Oric Atmos.
 - the Lynx console.
+- the Ohio Scientific Challenger 1P
 
 The libraries are fairly portable, so creating a version for other 6502s
 shouldn't be too much work.
