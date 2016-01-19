@@ -307,6 +307,10 @@ static void SetSys (const char* Sys)
             NewSymbol ("__OSIC1P__", 1);
             break;
 
+        case TGT_PCENGINE:
+            NewSymbol ("__PCE__", 1);
+            break;
+
         case TGT_JBIT:
             NewSymbol ("__JBIT__", 1);
             break;

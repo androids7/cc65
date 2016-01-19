@@ -78,6 +78,7 @@ typedef enum {
     TGT_LYNX,
     TGT_SIM6502,
     TGT_SIM65C02,
+    TGT_PCENGINE,
     TGT_JBIT,
     TGT_XV65,
     TGT_PRIMO,
