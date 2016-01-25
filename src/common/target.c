@@ -167,7 +167,6 @@ static const TargetEntry TargetMap[] = {
     {   "pce",          TGT_PCENGINE    },
     {   "pet",          TGT_PET         },
     {   "plus4",        TGT_PLUS4       },
-    {   "primo",        TGT_PRIMO       },
     {   "sim6502",      TGT_SIM6502     },
     {   "sim65c02",     TGT_SIM65C02    },
     {   "supervision",  TGT_SUPERVISION },
@@ -209,7 +208,6 @@ static const TargetProperties PropertyTable[TGT_COUNT] = {
     { "pce",            CPU_HUC6280,    BINFMT_BINARY,      CTNone  },
     { "jbit",           CPU_6502,       BINFMT_BINARY,      CTNone  },
     { "xv65",           CPU_6502,       BINFMT_BINARY,      CTNone  },
-    { "primo",          CPU_6502,       BINFMT_BINARY,      CTNone  },
 };
 
 /* Target system */

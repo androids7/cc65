@@ -30,7 +30,6 @@ TARGETS = apple2    \
           sim65c02  \
           jbit      \
           xv65      \
-          primo     \
           supervision
 
 DRVTYPES = emd \
