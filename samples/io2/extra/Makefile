@@ -4,8 +4,6 @@
 # This Makefile requires GNU make
 #
 
-include ../Samples.mk
-
 .PHONY:	all
 all: \
 	bounce.jb \
@@ -24,3 +22,5 @@ all: \
 	smile.jb \
 	bounce.prg \
 	cpubm.prg
+
+include ../Samples.mk
