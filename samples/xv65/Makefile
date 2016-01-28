@@ -5,13 +5,12 @@
 #
 
 CL=../../bin/cl65
-HDR=../../libsrc/xv65/header
 
 %.jb: %.c
 	$(CL) -t xv65 -O2 -o $@ $<
 
 %.jb: %.s
-	$(CL) -t xv65 -o $@ $(HDR).s $<
+	$(CL) -t xv65 -o $@ header.s $<
 
 .PHONY:	all
 all: \
@@ -43,4 +42,4 @@ pack:
 
 .PHONY:	clean
 clean:
-	$(RM) *~ $(HDR).o *.o *.jb cc65-jbit.zip
+	$(RM) *~ *.o *.jb cc65-jbit.zip

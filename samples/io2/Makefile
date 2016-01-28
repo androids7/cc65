@@ -5,13 +5,12 @@
 #
 
 CL=../../bin/cl65
-HDR=../../libsrc/io2/header
 
 %.jb: %.c
 	$(CL) -t io2 -O2 -o $@ $<
 
 %.jb: %.s
-	$(CL) -t io2 -o $@ $(HDR).s $<
+	$(CL) -t io2 -o $@ header.s $<
 
 %.prg: %.c
 	$(CL) -t c64 -O2 -o $@ $< c64jb.c
@@ -37,4 +36,4 @@ all: \
 
 .PHONY:	clean
 clean:
-	$(RM) *~ $(HDR).o *.o *.jb *.prg
+	$(RM) *~ *.o *.jb *.prg
