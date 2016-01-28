@@ -311,8 +311,8 @@ static void SetSys (const char* Sys)
             NewSymbol ("__PCE__", 1);
             break;
 
-        case TGT_JBIT:
-            NewSymbol ("__JBIT__", 1);
+        case TGT_IO2:
+            NewSymbol ("__IO2__", 1);
             break;
 
         case TGT_XV65:

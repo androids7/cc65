@@ -81,7 +81,7 @@ extern struct _timezone {
 unsigned _clocks_per_sec (void);
 #  define CLK_TCK               _clocks_per_sec()
 #  define CLOCKS_PER_SEC        _clocks_per_sec()
-#elif defined(__JBIT__)
+#elif defined(__IO2__)
 #  define CLK_TCK               100     /* POSIX */
 #  define CLOCKS_PER_SEC        100     /* ANSI */
 #elif defined(__ATARI5200__)

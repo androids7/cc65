@@ -30,15 +30,16 @@ PACK=cc65-jbit.zip
 pack:
 	zip -j $(PACK) \
 		../../asminc/xv65.inc \
-		../../asminc/jbit.inc \
+		../../asminc/io2.inc \
 		../../include/_xv65.h \
 		../../include/xv65.h \
-		../../include/jbit.h \
+		../../include/_io2.h \
+		../../include/io2.h \
 		../../cfg/xv65.cfg \
-		../../cfg/jbit.cfg \
+		../../cfg/io2.cfg \
 		../../lib/xv65.lib \
-		../../lib/jbit.lib \
-		../../libsrc/jbit/header.s
+		../../lib/io2.lib \
+		../../libsrc/io2/header.s
 
 .PHONY:	clean
 clean:

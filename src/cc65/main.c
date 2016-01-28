@@ -267,8 +267,8 @@ static void SetSys (const char* Sys)
             DefineNumericMacro ("__PCE__", 1);
             break;
 
-        case TGT_JBIT:
-            DefineNumericMacro ("__JBIT__", 1);
+        case TGT_IO2:
+            DefineNumericMacro ("__IO2__", 1);
             break;
 
         case TGT_XV65:

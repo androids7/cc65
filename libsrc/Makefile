@@ -28,7 +28,7 @@ TARGETS = apple2    \
           pce       \
           sim6502   \
           sim65c02  \
-          jbit      \
+          io2       \
           xv65      \
           supervision
 

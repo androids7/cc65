@@ -81,8 +81,8 @@
 #  include <osic1p.h>
 #elif defined(__PCE__)
 #  include <pce.h>
-#elif defined(__JBIT__)
-#  include <jbit.h>
+#elif defined(__IO2__)
+#  include <io2.h>
 #endif
 
 
