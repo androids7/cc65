@@ -1,4 +1,4 @@
-; Test the Record Store API. Drive: C, Name: recstore.
+; Test the Record Store API.
 
 	.include "io2.inc"
 
@@ -8,8 +8,6 @@ SIZE = 10
 
 	lda #>_data_start_
 	sta REQPTRHI
-	lda #<rdrive
-	sta REQPTRLO
 
 update_screen:
 	ldx #39
@@ -82,10 +80,6 @@ screen:
 	.byte "#:delete  "
 	.byte "*:exit    "
 	.byte "          "
-
-rdrive: req
-	.byte REQ_RDRIVE, 'C'
-endreq
 
 rload: req
 	.byte REQ_RLOAD
