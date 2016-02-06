@@ -28,6 +28,7 @@ PACK=cc65-jbit.zip
 .PHONY:	pack
 pack:
 	zip -j $(PACK) \
+		../../LICENSE \
 		../../asminc/xv65.inc \
 		../../asminc/io2.inc \
 		../../include/_xv65.h \
