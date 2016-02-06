@@ -34,7 +34,7 @@ if [ ! -d $TOOLCHAIN ] ; then
 		exit 1
 	fi
 	$CC65ANDROID_NDK/build/tools/make-standalone-toolchain.sh \
-	--arch=$1 --platform=android-$ID \
+	--system=linux-x86_64 --arch=$1 --platform=android-$ID \
 	--install-dir="$CC65ANDROID_WORKDIR/$TOOLCHAIN"
 fi
 

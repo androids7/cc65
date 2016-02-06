@@ -5,12 +5,12 @@ if [ -z "$CC65ANDROID_WORKDIR" ] ; then
 	exit 1
 fi
 
+source=`pwd`/../..
 mkdir -p "$CC65ANDROID_WORKDIR"
 
 if [ ! -d "$CC65ANDROID_WORKDIR/source" ] ; then
 	( cd "$CC65ANDROID_WORKDIR"
-	#git clone https://github.com/cc65/cc65 source
-	git clone ~/git/cc65 source
+	cp -rv $source source
 	)
 fi
 
