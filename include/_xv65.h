@@ -43,8 +43,10 @@
 
 #define FRMFPS 0x0211
 #define FRMDRAW 0x0212
+#define TTYCTL 0x0215
 #define PUTUINT8 0x0216
 #define RANDOM 0x0217
+#define KEYBUF 0x0218
 
 #define CONCOLS 0x0220
 #define CONROWS 0x0221
@@ -94,9 +96,17 @@
 #define REQ_RMDIR 49
 #define REQ_LSEEK 50
 
+#define TTY_ICANON 1
+#define TTY_MICROIO 2
+#define TTY_RAW 3
+#define TTY_MODEMASK 7
+#define TTY_ISDIRTY 64
+#define TTY_CANREAD 128
+
 #define ESC_HOME 1
 #define ESC_CLEAR 2
 #define ESC_NORMAL 3
+#define ESC_OBR 4
 
 #define ESC_FG_BLACK 30
 #define ESC_FG_RED 31
