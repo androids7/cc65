@@ -38,9 +38,8 @@ show:
 
 wait_key:
 	sta FRMDRAW
-next:
 	lda KEYBUF
-	beq next
+	beq wait_key
 	sta KEYBUF
 
 command:
