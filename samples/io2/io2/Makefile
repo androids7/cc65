@@ -10,7 +10,7 @@ all: \
 	irawrgba.jb \
 	maze.jb \
 	sprites.jb \
-	template.jb \
+	gameset.jb \
 	tiles.jb \
 	vintage.jb
 
