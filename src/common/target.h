@@ -79,6 +79,8 @@ typedef enum {
     TGT_SIM6502,
     TGT_SIM65C02,
     TGT_PCENGINE,
+    TGT_GAMATE,
+    TGT_C65,
     TGT_IO2,
     TGT_XV65,
     TGT_COUNT                   /* Number of target systems */

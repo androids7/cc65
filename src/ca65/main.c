@@ -226,6 +226,10 @@ static void SetSys (const char* Sys)
             CBMSystem ("__C64__");
             break;
 
+        case TGT_C65:
+            CBMSystem ("__C65__");
+            break;
+
         case TGT_VIC20:
             CBMSystem ("__VIC20__");
             break;
@@ -262,6 +266,10 @@ static void SetSys (const char* Sys)
         case TGT_APPLE2ENH:
             NewSymbol ("__APPLE2__", 1);
             NewSymbol ("__APPLE2ENH__", 1);
+            break;
+
+        case TGT_GAMATE:
+            NewSymbol ("__GAMATE__", 1);
             break;
 
         case TGT_GEOS_CBM:
@@ -623,7 +631,8 @@ static void OptVersion (const char* Opt attribute ((unused)),
                         const char* Arg attribute ((unused)))
 /* Print the assembler version */
 {
-    fprintf (stderr, "ca65 V%s\n", GetVersionAsString ());
+    fprintf (stderr, "%s V%s\n", ProgName, GetVersionAsString ());
+    exit(EXIT_SUCCESS);
 }
 
 

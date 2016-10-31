@@ -220,6 +220,10 @@ static void SetSys (const char* Sys)
             DefineNumericMacro ("__APPLE2ENH__", 1);
             break;
 
+        case TGT_GAMATE:
+            DefineNumericMacro ("__GAMATE__", 1);
+            break;
+
         case TGT_GEOS_CBM:
             /* Do not handle as a CBM system */
             DefineNumericMacro ("__GEOS__", 1);
@@ -746,7 +750,7 @@ static void OptVersion (const char* Opt attribute ((unused)),
                         const char* Arg attribute ((unused)))
 /* Print the compiler version */
 {
-    fprintf (stderr, "cc65 V%s\n", GetVersionAsString ());
+    fprintf (stderr, "%s V%s\n", ProgName, GetVersionAsString ());
     exit (EXIT_SUCCESS);
 }
 

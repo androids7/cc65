@@ -1,15 +1,10 @@
 /bin/
-/emd/
 /html/
 /info/
-/joy/
 /lib/
 /libwrk/
-/mou/
-/ser/
-/targetutil/
+/target/
 /testwrk/
-/tgi/
 /wrk/
 .c9
 *.swp
@@ -17,3 +12,4 @@
 *.jb
 *.prg
 *.map
+/cc65.zip
