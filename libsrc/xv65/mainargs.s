@@ -17,7 +17,7 @@
 
 	.include	"xv65.inc"
 
-.segment	"INIT"
+.segment	"ONCE"
 
 initmainargs:
 

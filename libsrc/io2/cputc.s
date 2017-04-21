@@ -78,10 +78,10 @@ putchar:
 	rts
 
 ;-----------------------------------------------------------------------------
-; Initialize the conio subsystem. Code goes into the INIT segment, which may
+; Initialize the conio subsystem. Code goes into the ONCE segment, which may
 ; be reused after startup.
 
-.segment        "INIT"
+.segment        "ONCE"
 
 ; Enlarge the console to fill the display (default size is 10x4)
 
