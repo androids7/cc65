@@ -5,7 +5,7 @@
 /*                                                                         */
 
 /*                                                                         */
-/*  Copyright (C) 2012-2016  Emanuele Fornara                              */
+/*  Copyright (C) 2012-2017  Emanuele Fornara                              */
 /*  All rights reserved.                                                   */
 /*                                                                         */
 /*  Redistribution and use in source and binary forms, with or without     */
@@ -148,6 +148,7 @@
 #define IPNGGEN_FLAGS_PALREF 0x02
 #define IPNGGEN_FLAGS_ZOOM0 0x04
 #define IPNGGEN_FLAGS_ZOOM1 0x08
+#define IPNGGEN_FLAGS_ZOOM2 0x10
 #define IRAWRGBA_FLAGS_ALPHA 0x01
 #define DATATYPE_U8 0x01
 #define DATATYPE_I8 0x02
