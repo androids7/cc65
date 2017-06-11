@@ -32,8 +32,14 @@
 	; Data Size (in pages)
 	.byte	>(__EOD_LOAD__ - __RODATA_LOAD__)
 
+	; Device ID
+	.ifdef	JBFMT_DEVID
+	.byte	JBFMT_DEVID
+	.else
+	.byte	4
+	.endif
+
 	; Reserved for future use
-	.byte	0
 	.byte	0
 
 	; The header is followed by the program itself.

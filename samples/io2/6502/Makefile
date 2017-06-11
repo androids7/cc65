@@ -17,3 +17,6 @@ all: \
 	random.jb
 
 include ../Samples.mk
+
+%.jb: %.s
+	$(CL) -Wa -DJBFMT_DEVID=3 -t io2 -o $@ header.s $<
