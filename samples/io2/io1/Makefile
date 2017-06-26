@@ -13,6 +13,7 @@ all: \
 	ipnggen1.jb \
 	ipnggen2.jb \
 	ipnggen3.jb \
+	loadrom.jb \
 	recstore.jb \
 	resize.jb \
 	setpal.jb \
